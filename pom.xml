@@ -11,6 +11,8 @@
 		<module>jccdemo-api</module>
 		<module>jccdemo-client</module>
 		<module>jccdemo-common</module>
+		<module>jccdemo-domain</module>
+		<module>jccdemo-lang</module>
 	</modules>
 
 	<dependencies>
