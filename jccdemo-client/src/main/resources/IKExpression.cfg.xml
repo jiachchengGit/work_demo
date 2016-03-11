@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<function-configuration>
+	<bean class="com.jccdemo.client.expression.MyMatch">
+		<function name="MyMatch" method="match">
+			<parameter-type>java.lang.String</parameter-type>
+			<parameter-type>java.lang.String</parameter-type>
+		</function>
+	</bean>
+</function-configuration>
