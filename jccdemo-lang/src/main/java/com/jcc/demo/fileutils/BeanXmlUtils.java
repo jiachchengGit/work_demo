@@ -27,7 +27,6 @@ import org.slf4j.LoggerFactory;
  * @date 2015年10月21日 下午3:10:57 
  *  
  */
-@SuppressWarnings("restriction")
 public class BeanXmlUtils {
 	private static Logger log = LoggerFactory.getLogger(BeanXmlUtils.class);
 
