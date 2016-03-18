@@ -107,8 +107,7 @@ public class QRCodeUtil {
 		graph.dispose();
 	}
 
-	public static void encode(String content, String imgPath, String destPath,
-			boolean needCompress) throws Exception {
+	public static void encode(String content, String imgPath, String destPath,boolean needCompress) throws Exception {
 		BufferedImage image = QRCodeUtil.createImage(content, imgPath,
 				needCompress);
 		mkdirs(destPath);
@@ -129,8 +128,7 @@ public class QRCodeUtil {
 		QRCodeUtil.encode(content, imgPath, destPath, false);
 	}
 
-	public static void encode(String content, String destPath,
-			boolean needCompress) throws Exception {
+	public static void encode(String content, String destPath,boolean needCompress) throws Exception {
 		QRCodeUtil.encode(content, null, destPath, needCompress);
 	}
 
@@ -145,8 +143,7 @@ public class QRCodeUtil {
 		ImageIO.write(image, FORMAT_NAME, output);
 	}
 
-	public static void encode(String content, OutputStream output)
-			throws Exception {
+	public static void encode(String content, OutputStream output)throws Exception {
 		QRCodeUtil.encode(content, null, output, false);
 	}
 
