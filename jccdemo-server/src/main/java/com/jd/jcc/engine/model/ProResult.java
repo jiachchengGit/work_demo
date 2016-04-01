@@ -16,21 +16,21 @@ package com.jd.jcc.engine.model;
  * @date 2016年3月31日 下午2:38:08 
  *  
  */
-public class ProResult<T> {
+public class ProResult {
 	
-	private T result;
+	private Object result;
 
 	/**
 	 * @return the result
 	 */
-	public T getResult() {
+	public Object getResult() {
 		return result;
 	}
 
 	/**
 	 * @param result the result to set
 	 */
-	public void setResult(T result) {
+	public void setResult(Object result) {
 		this.result = result;
 	}
 	

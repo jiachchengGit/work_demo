@@ -23,8 +23,22 @@ public class BranchNodeItem {
 	
 	private String expression;
 	
+	private String nextNodeKey;
+	
 	private BranchExpression branchExpression;
 	
+	/**
+	 * @return the nextNodeKey
+	 */
+	public String getNextNodeKey() {
+		return nextNodeKey;
+	}
+	/**
+	 * @param nextNodeKey the nextNodeKey to set
+	 */
+	public void setNextNodeKey(String nextNodeKey) {
+		this.nextNodeKey = nextNodeKey;
+	}
 	/**
 	 * @return the branchExpression
 	 */

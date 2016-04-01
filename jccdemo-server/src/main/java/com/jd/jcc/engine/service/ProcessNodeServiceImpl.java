@@ -39,7 +39,7 @@ import com.jd.jcc.engine.nodedefine.SubProNode;
  * @date 2016年4月1日 上午9:56:09 
  *  
  */
-public class ProcessNodeServiceImpl implements ProcessNodeService {
+public class ProcessNodeServiceImpl implements IProcessNodeService {
 	
 	private Logger log = LoggerFactory.getLogger(ProcessNodeServiceImpl.class);
 	

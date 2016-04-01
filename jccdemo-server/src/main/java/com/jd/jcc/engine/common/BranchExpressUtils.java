@@ -28,12 +28,13 @@ import com.jd.jcc.engine.nodedefine.BranchExpressionItem;
  * @date 2016年3月7日 下午1:51:06 
  *  
  */
+
 public class BranchExpressUtils {
 	
 	private static Logger log = LoggerFactory.getLogger(BranchExpressUtils.class);
 	
 	
-	public ExpressionAssemblyResult assemblyBranchExpress(BranchExpression expression){
+	public static ExpressionAssemblyResult assemblyBranchExpress(BranchExpression expression){
 		ExpressionAssemblyResult result = new ExpressionAssemblyResult();
 		String expressionType = expression.getExpressionType();
 		Map<String, VariableType> codeValues =null;

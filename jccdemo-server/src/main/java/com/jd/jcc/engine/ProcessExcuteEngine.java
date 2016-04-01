@@ -14,17 +14,25 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.jcc.demo.expression.IkExpressionUtils;
+import com.jcc.demo.expression.VariableType;
+import com.jd.jcc.engine.common.BranchExpressUtils;
+import com.jd.jcc.engine.model.ExpressionAssemblyResult;
 import com.jd.jcc.engine.model.ProNodeTypeEnum;
 import com.jd.jcc.engine.model.ProParam;
 import com.jd.jcc.engine.model.ProResult;
 import com.jd.jcc.engine.model.ProcessBean;
 import com.jd.jcc.engine.nodedefine.BaseProNode;
 import com.jd.jcc.engine.nodedefine.AggregationProNode;
+import com.jd.jcc.engine.nodedefine.BranchNodeItem;
 import com.jd.jcc.engine.nodedefine.BranchProNode;
 import com.jd.jcc.engine.nodedefine.BusinessProNode;
 import com.jd.jcc.engine.nodedefine.ParallelProNode;
 import com.jd.jcc.engine.nodedefine.StartProNode;
 import com.jd.jcc.engine.nodedefine.SubProNode;
+import com.jd.jcc.engine.service.IBranchItemValueParse;
+import com.jd.jcc.engine.service.IBusinessNodeService;
+import com.jd.jcc.engine.service.IProcessNodeService;
 
 /** 
  * @ClassName: ProcessScheduler 
@@ -33,11 +41,13 @@ import com.jd.jcc.engine.nodedefine.SubProNode;
  * @date 2016年3月31日 下午2:37:42 
  *  
  */
-public class ProcessScheduler {
-	private Logger log  = LoggerFactory.getLogger(ProcessScheduler.class);
+public class ProcessExcuteEngine {
+	private Logger log  = LoggerFactory.getLogger(ProcessExcuteEngine.class);
+	private IBranchItemValueParse branchItemValueParse;
+	private IBusinessNodeService businessNodeService;
+	private IProcessNodeService processNodeService;
 	
-	public void excuteProcess(String source,ProParam param){
-		String processId = getProcessIdBySource(source);
+	public void excuteProcess(String processId,ProParam param){
 		ProcessBean proBean = getProcessBean(processId);
 		startExcuteProcess(param, proBean);
 	}
@@ -251,7 +261,15 @@ public class ProcessScheduler {
 	 * @throws 
 	 */
 	private String excuteExpress(BranchProNode bn, ProParam param) {
-		
+		List<BranchNodeItem> items = bn.getItems();
+		for(BranchNodeItem i:items){
+			ExpressionAssemblyResult express = BranchExpressUtils.assemblyBranchExpress(i.getBranchExpression());
+			Map<String, VariableType> parseVariableValue = branchItemValueParse.parseVariableValue(express.getValues(),param.getRequestParam());
+			boolean flag = IkExpressionUtils.logicExpression(express.getExpression(), parseVariableValue);
+			if(flag){
+				return i.getNextNodeKey();
+			}
+		}
 		return null;
 	}
 
@@ -268,8 +286,7 @@ public class ProcessScheduler {
 	private void excuteBusinessNode(BaseProNode node,Map<String, BaseProNode> nodes, ProParam param) {
 		//执行业务逻辑
 		BusinessProNode bn = (BusinessProNode)node;
-		ProResult pr = doBusinessWork(node,param);
-		
+		ProResult pr = doBusinessWork(bn,param);
 		param.setResult(pr);
 		//执行下个节点
 		BaseProNode nextNode = bn.getNextNode();
@@ -286,9 +303,11 @@ public class ProcessScheduler {
 	 * @throws 
 	 */
 	private ProResult doBusinessWork(BaseProNode node, ProParam param) {
-		
-		
-		return null;
+		ProResult pr = new ProResult();
+		Object requestParam = param.getRequestParam();
+		Object result = businessNodeService.excuteService(node,requestParam);
+		pr.setResult(result);
+		return pr;
 	}
 
 	/**
@@ -331,23 +350,7 @@ public class ProcessScheduler {
 	 * @throws 
 	 */
 	private ProcessBean getProcessBean(String processId) {
-		
-		
-		
-		return null;
-	}
-
-	/** 
-	 * @Description: TODO(这里用一句话描述这个方法的作用) 
-	 * @Author chenjiacheng
-	 * @Date 2016年3月31日 下午2:39:55
-	 * @param source
-	 * @return        
-	 * @throws 
-	 */
-	private String getProcessIdBySource(String source) {
-		
-		
-		return null;
+		ProcessBean pb = processNodeService.queryProcessBeanById(processId);
+		return pb;
 	}
 }

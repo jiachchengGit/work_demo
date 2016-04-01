@@ -17,6 +17,6 @@ import com.jd.jcc.engine.model.ProcessBean;
  * @date 2016年4月1日 上午9:53:15 
  *  
  */
-public interface ProcessNodeService {
+public interface IProcessNodeService {
 	public ProcessBean queryProcessBeanById(String processId);
 }

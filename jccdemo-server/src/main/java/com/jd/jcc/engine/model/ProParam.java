@@ -21,10 +21,10 @@ import java.util.Map;
  * @date 2016年3月31日 下午2:38:26 
  *  
  */
-public class ProParam<P> {
+public class ProParam {
 	private ProResult result;
 	private ProContext  proContext = new ProContext();
-	private P requestParam;
+	private Object requestParam;
 	
 	/**
 	 * @return the proContext
@@ -45,7 +45,7 @@ public class ProParam<P> {
 	/**
 	 * @return the requestParam
 	 */
-	public P getRequestParam() {
+	public Object getRequestParam() {
 		return requestParam;
 	}
 
@@ -53,7 +53,7 @@ public class ProParam<P> {
 	/**
 	 * @param requestParam the requestParam to set
 	 */
-	public void setRequestParam(P requestParam) {
+	public void setRequestParam(Object requestParam) {
 		this.requestParam = requestParam;
 	}
 
