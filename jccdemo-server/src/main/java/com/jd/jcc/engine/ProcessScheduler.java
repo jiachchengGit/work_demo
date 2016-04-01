@@ -18,7 +18,7 @@ import com.jd.jcc.engine.model.ProNodeTypeEnum;
 import com.jd.jcc.engine.model.ProParam;
 import com.jd.jcc.engine.model.ProResult;
 import com.jd.jcc.engine.model.ProcessBean;
-import com.jd.jcc.engine.nodedefine.AbstractProNode;
+import com.jd.jcc.engine.nodedefine.BaseProNode;
 import com.jd.jcc.engine.nodedefine.AggregationProNode;
 import com.jd.jcc.engine.nodedefine.BranchProNode;
 import com.jd.jcc.engine.nodedefine.BusinessProNode;
@@ -52,7 +52,7 @@ public class ProcessScheduler {
 	 * @param param        
 	 * @throws 
 	 */
-	private void excuteSubProcessNode(AbstractProNode node, ProParam param) {
+	private void excuteSubProcessNode(BaseProNode node, ProParam param) {
 		SubProNode sn = (SubProNode)node;
 		ProcessBean proBean = getProcessBean(sn.getSubProcessId());
 		startExcuteProcess(param, proBean);
@@ -68,8 +68,8 @@ public class ProcessScheduler {
 	 * @throws 
 	 */
 	private void startExcuteProcess(ProParam param, ProcessBean proBean) {
-		AbstractProNode startNode = proBean.getStartNode();
-		Map<String, AbstractProNode> nodes = proBean.getNodes();
+		BaseProNode startNode = proBean.getStartNode();
+		Map<String, BaseProNode> nodes = proBean.getNodes();
 		excuteNode(null,startNode,nodes,param);
 	}
 
@@ -83,7 +83,7 @@ public class ProcessScheduler {
 	 * @return        
 	 * @throws 
 	 */
-	private void excuteNode(AbstractProNode parentNode,AbstractProNode node,	Map<String, AbstractProNode> nodes, ProParam param) {
+	private void excuteNode(BaseProNode parentNode,BaseProNode node,Map<String, BaseProNode> nodes, ProParam param) {
 		String nodeType = node.getNodeType();
 		if(ProNodeTypeEnum.start.name().equals(nodeType)){
 			excuteStartNode(node,nodes,param);
@@ -112,17 +112,17 @@ public class ProcessScheduler {
 	 * @param param        
 	 * @throws 
 	 */
-	private void excuteAggregationNode(AbstractProNode parentNode,AbstractProNode node,Map<String, AbstractProNode> nodes, ProParam param) {
+	private void excuteAggregationNode(BaseProNode parentNode,BaseProNode node,Map<String, BaseProNode> nodes, ProParam param) {
 		AggregationProNode an = (AggregationProNode)node;
-		List<AbstractProNode> parentNodes = an.getParentNodes();
-		AbstractProNode nextNode = an.getNextNode();
-		param.getParallelResults().put(parentNode.getNodeKey(), param.getResult());
+		List<BaseProNode> parentNodes = an.getParentNodes();
+		BaseProNode nextNode = an.getNextNode();
+		param.getProContext().getParallelResults().put(parentNode.getNodeKey(), param.getResult());
 		boolean flag = true;
 		while(flag){
 			int i=0;
-			for(AbstractProNode pn:parentNodes){
+			for(BaseProNode pn:parentNodes){
 				String nodeKey = pn.getNodeKey();
-				if(param.getParallelResults().containsKey(nodeKey)){
+				if(param.getProContext().getParallelResults().containsKey(nodeKey)){
 					i=i+1;
 				}
 			}
@@ -156,9 +156,9 @@ public class ProcessScheduler {
 	 * @throws 
 	 */
 	private synchronized boolean checkPallelFlag(String nodeKey, ProParam param) {
-		boolean flag = param.getAggregationKey().contains(nodeKey);
+		boolean flag = param.getProContext().getAggregationKey().contains(nodeKey);
 		if(!flag){
-			param.getAggregationKey().add(nodeKey);
+			param.getProContext().getAggregationKey().add(nodeKey);
 		}
 		return flag;
 	}
@@ -186,10 +186,10 @@ public class ProcessScheduler {
 	 * @param param        
 	 * @throws 
 	 */
-	private void excuteParallelNode(AbstractProNode node,Map<String, AbstractProNode> nodes, ProParam param) {
+	private void excuteParallelNode(BaseProNode node,Map<String, BaseProNode> nodes, ProParam param) {
 		ParallelProNode ppn = (ParallelProNode)node;
-		List<AbstractProNode> nextNodes = ppn.getNextNodes();
-		for(AbstractProNode n:nextNodes){
+		List<BaseProNode> nextNodes = ppn.getNextNodes();
+		for(BaseProNode n:nextNodes){
 			doParallelThread(ppn,n,nodes,param);
 		}
 	}
@@ -204,16 +204,16 @@ public class ProcessScheduler {
 	 * @return        
 	 * @throws 
 	 */
-	private void doParallelThread(AbstractProNode ppn,AbstractProNode n,Map<String, AbstractProNode> nodes, ProParam param) {
+	private void doParallelThread(BaseProNode ppn,BaseProNode n,Map<String, BaseProNode> nodes, ProParam param) {
 		new Thread(new ParallelThread(ppn,n,nodes,param),"ParallelThread-"+n.getNodeName()).start();
 	}
 	
 	private class ParallelThread implements Runnable{
-		private AbstractProNode parentNode;
-		private AbstractProNode n;
-		private Map<String, AbstractProNode> nodes;
+		private BaseProNode parentNode;
+		private BaseProNode n;
+		private Map<String, BaseProNode> nodes;
 		private ProParam param;
-		public ParallelThread(AbstractProNode parentNode,AbstractProNode n,Map<String, AbstractProNode> nodes, ProParam param){
+		public ParallelThread(BaseProNode parentNode,BaseProNode n,Map<String, BaseProNode> nodes, ProParam param){
 			this.parentNode=parentNode;
 			this.n=n;
 			this.nodes=nodes;
@@ -234,10 +234,10 @@ public class ProcessScheduler {
 	 * @param param        
 	 * @throws 
 	 */
-	private void excuteBranchNode(AbstractProNode node,Map<String, AbstractProNode> nodes, ProParam param) {
+	private void excuteBranchNode(BaseProNode node,Map<String, BaseProNode> nodes, ProParam param) {
 		BranchProNode bn = (BranchProNode)node;
 		String nextNodeKey=excuteExpress(bn,param);
-		AbstractProNode nextNode = nodes.get(nextNodeKey);
+		BaseProNode nextNode = nodes.get(nextNodeKey);
 		excuteNode(bn,nextNode, nodes, param);
 	}
 
@@ -251,7 +251,7 @@ public class ProcessScheduler {
 	 * @throws 
 	 */
 	private String excuteExpress(BranchProNode bn, ProParam param) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
@@ -265,14 +265,14 @@ public class ProcessScheduler {
 	 * @param param        
 	 * @throws 
 	 */
-	private void excuteBusinessNode(AbstractProNode node,Map<String, AbstractProNode> nodes, ProParam param) {
+	private void excuteBusinessNode(BaseProNode node,Map<String, BaseProNode> nodes, ProParam param) {
 		//执行业务逻辑
 		BusinessProNode bn = (BusinessProNode)node;
 		ProResult pr = doBusinessWork(node,param);
 		
 		param.setResult(pr);
 		//执行下个节点
-		AbstractProNode nextNode = bn.getNextNode();
+		BaseProNode nextNode = bn.getNextNode();
 		excuteNode(bn,nextNode, nodes, param);
 	}
 
@@ -285,7 +285,7 @@ public class ProcessScheduler {
 	 * @return        
 	 * @throws 
 	 */
-	private ProResult doBusinessWork(AbstractProNode node, ProParam param) {
+	private ProResult doBusinessWork(BaseProNode node, ProParam param) {
 		
 		
 		return null;
@@ -302,7 +302,7 @@ public class ProcessScheduler {
 	 * @param param        
 	 * @throws 
 	 */
-	private ProResult excuteEndNode(AbstractProNode node, Map<String, AbstractProNode> nodes, ProParam param) {
+	private ProResult excuteEndNode(BaseProNode node, Map<String, BaseProNode> nodes, ProParam param) {
 		log.info(">>[流程执行结束]<<--processId="+node.getProcessId());
 		return param.getResult();
 	}
@@ -316,9 +316,9 @@ public class ProcessScheduler {
 	 * @param param        
 	 * @throws 
 	 */
-	private void excuteStartNode(AbstractProNode node,Map<String, AbstractProNode> nodes, ProParam param) {
+	private void excuteStartNode(BaseProNode node,Map<String, BaseProNode> nodes, ProParam param) {
 		StartProNode sn = (StartProNode)node;
-		AbstractProNode nextNode = sn.getNextNode();
+		BaseProNode nextNode = sn.getNextNode();
 		excuteNode(sn,nextNode, nodes, param);
 	}
 

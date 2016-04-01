@@ -8,6 +8,8 @@
 */
 package com.jd.jcc.engine.nodedefine;
 
+import java.util.List;
+
 import com.jd.jcc.engine.model.ProNodeTypeEnum;
 
 /** 
@@ -17,41 +19,54 @@ import com.jd.jcc.engine.model.ProNodeTypeEnum;
  * @date 2016年3月31日 上午11:49:22 
  *  
  */
-public class BusinessProNode extends AbstractProNode {
+public class BusinessProNode extends BaseProNode {
 
-	private AbstractProNode parentNode;
+	private List<BaseProNode> parentNodes;
 	
-	private AbstractProNode nextNode;
+	private BaseProNode nextNode;
 	
 	public BusinessProNode() {
 		super(ProNodeTypeEnum.business.name());
 	}
 
 	/**
-	 * @return the parentNode
+	 * @return the parentNodes
 	 */
-	public AbstractProNode getParentNode() {
-		return parentNode;
+	public List<BaseProNode> getParentNodes() {
+		return parentNodes;
 	}
 
+
 	/**
-	 * @param parentNode the parentNode to set
+	 * @param parentNodes the parentNodes to set
 	 */
-	public void setParentNode(AbstractProNode parentNode) {
-		this.parentNode = parentNode;
+	public void setParentNodes(List<BaseProNode> parentNodes) {
+		this.parentNodes = parentNodes;
 	}
+
 
 	/**
 	 * @return the nextNode
 	 */
-	public AbstractProNode getNextNode() {
+	public BaseProNode getNextNode() {
 		return nextNode;
 	}
 
 	/**
 	 * @param nextNode the nextNode to set
 	 */
-	public void setNextNode(AbstractProNode nextNode) {
+	public void setNextNode(BaseProNode nextNode) {
 		this.nextNode = nextNode;
 	}
+
+	@Override
+	public void addChildNode(BaseProNode node) {
+		this.nextNode = node;
+	}
+
+	@Override
+	public void addParentNode(BaseProNode node) {
+		this.parentNodes.add(node);
+	}
+	
 }

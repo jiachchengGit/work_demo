@@ -8,6 +8,9 @@
 */
 package com.jd.jcc.engine;
 
+import org.springframework.beans.BeanUtils;
+
+import com.jd.jcc.engine.nodedefine.BaseProNode;
 import com.jd.jcc.engine.nodedefine.BusinessProNode;
 import com.jd.jcc.engine.nodedefine.StartProNode;
 
@@ -24,5 +27,11 @@ public class TestNode {
 		StartProNode spn = new StartProNode();
 		spn.setNextNode(bpn);
 		System.out.println(spn.getNextNode().getClass());
+		BaseProNode s = new BaseProNode();
+		s.setNodeId("nodeId");
+		s.setNodeKey("nodeKey");
+		StartProNode t = new StartProNode();
+		BeanUtils.copyProperties(s, t);
+		System.out.println(s.getNodeKey());
 	}
 }

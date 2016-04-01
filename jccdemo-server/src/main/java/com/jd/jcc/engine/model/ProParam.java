@@ -17,36 +17,44 @@ import java.util.Map;
  * @ClassName: ProParam 
  * @Description: TODO(这里用一句话描述这个类的作用) 
  * @author chenjiacheng
+ * @param <P>
  * @date 2016年3月31日 下午2:38:26 
  *  
  */
-public class ProParam {
+public class ProParam<P> {
 	private ProResult result;
-	private List<ProResult> results = new ArrayList<ProResult>();
-	private Map<String,ProResult> parallelResults = new HashMap<String,ProResult>();
-	private List<String> aggregationKey = new ArrayList<String>();
-
+	private ProContext  proContext = new ProContext();
+	private P requestParam;
+	
 	/**
-	 * @return the aggregationKey
+	 * @return the proContext
 	 */
-	public List<String> getAggregationKey() {
-		return aggregationKey;
+	public ProContext getProContext() {
+		return proContext;
 	}
 
 
 	/**
-	 * @param aggregationKey the aggregationKey to set
+	 * @param proContext the proContext to set
 	 */
-	public void setAggregationKey(List<String> aggregationKey) {
-		this.aggregationKey = aggregationKey;
+	public void setProContext(ProContext proContext) {
+		this.proContext = proContext;
 	}
 
 
 	/**
-	 * @return the results
+	 * @return the requestParam
 	 */
-	public List<ProResult> getResults() {
-		return results;
+	public P getRequestParam() {
+		return requestParam;
+	}
+
+
+	/**
+	 * @param requestParam the requestParam to set
+	 */
+	public void setRequestParam(P requestParam) {
+		this.requestParam = requestParam;
 	}
 
 
@@ -63,22 +71,8 @@ public class ProParam {
 	public void setResult(ProResult result) {
 		if(result != null){
 			this.result = result;
-			this.results.add(result);
+			this.proContext.getResults().add(result);
 		}
-	}
-
-	/**
-	 * @return the parallelResults
-	 */
-	public Map<String, ProResult> getParallelResults() {
-		return parallelResults;
-	}
-
-	/**
-	 * @param parallelResults the parallelResults to set
-	 */
-	public void setParallelResults(Map<String, ProResult> parallelResults) {
-		this.parallelResults = parallelResults;
 	}
 
 	

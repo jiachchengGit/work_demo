@@ -17,11 +17,11 @@ import com.jd.jcc.engine.model.ProNodeTypeEnum;
  * @date 2016年3月31日 下午2:01:30 
  *  
  */
-public class SubProNode extends AbstractProNode {
+public class SubProNode extends BaseProNode {
 	//子流程ID
 	private String subProcessId;
 	
-	public SubProNode(String nodeType) {
+	public SubProNode() {
 		super(ProNodeTypeEnum.sub_process.name());
 	}
 	
@@ -38,5 +38,16 @@ public class SubProNode extends AbstractProNode {
 	 */
 	public void setSubProcessId(String subProcessId) {
 		this.subProcessId = subProcessId;
+	}
+
+	@Override
+	public void addChildNode(BaseProNode node) {
+		
+		
+	}
+
+	@Override
+	public void addParentNode(BaseProNode node) {
+		
 	}
 }

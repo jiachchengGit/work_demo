@@ -20,42 +20,52 @@ import com.jd.jcc.engine.model.ProNodeTypeEnum;
  * @date 2016年3月31日 上午11:51:09 
  *  
  */
-public class AggregationProNode extends AbstractProNode {
+public class AggregationProNode extends BaseProNode {
 
-	private AbstractProNode nextNode;
+	private BaseProNode nextNode;
 	
-	private List<AbstractProNode> parentNodes;
+	private List<BaseProNode> parentNodes;
 	
 	public AggregationProNode() {
 		super(ProNodeTypeEnum.aggregation.name());
-		parentNodes = new ArrayList<AbstractProNode>();
+		parentNodes = new ArrayList<BaseProNode>();
 	}
 
 	/**
 	 * @return the nextNode
 	 */
-	public AbstractProNode getNextNode() {
+	public BaseProNode getNextNode() {
 		return nextNode;
 	}
 
 	/**
 	 * @param nextNode the nextNode to set
 	 */
-	public void setNextNode(AbstractProNode nextNode) {
+	public void setNextNode(BaseProNode nextNode) {
 		this.nextNode = nextNode;
 	}
 
 	/**
 	 * @return the parentNodes
 	 */
-	public List<AbstractProNode> getParentNodes() {
+	public List<BaseProNode> getParentNodes() {
 		return parentNodes;
 	}
 
 	/**
 	 * @param parentNodes the parentNodes to set
 	 */
-	public void setParentNodes(List<AbstractProNode> parentNodes) {
+	public void setParentNodes(List<BaseProNode> parentNodes) {
 		this.parentNodes = parentNodes;
+	}
+
+	@Override
+	public void addChildNode(BaseProNode node) {
+		this.nextNode = node;
+	}
+
+	@Override
+	public void addParentNode(BaseProNode node) {
+		this.parentNodes.add(node);
 	}
 }

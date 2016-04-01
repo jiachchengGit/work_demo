@@ -13,6 +13,11 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.jcc.demo</groupId>
+			<artifactId>jccdemo-lang</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.jcc.demo</groupId>
 			<artifactId>jccdemo-api</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>

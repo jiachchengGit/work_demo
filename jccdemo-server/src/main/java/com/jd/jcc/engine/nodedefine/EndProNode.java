@@ -20,26 +20,37 @@ import com.jd.jcc.engine.model.ProNodeTypeEnum;
  * @date 2016年3月31日 下午1:38:44 
  *  
  */
-public class EndProNode extends AbstractProNode {
+public class EndProNode extends BaseProNode {
 
-	private List<AbstractProNode> parentNodes;
+	private List<BaseProNode> parentNodes;
 	
 	public EndProNode() {
 		super(ProNodeTypeEnum.end.name());
-		parentNodes = new ArrayList<AbstractProNode>();
+		parentNodes = new ArrayList<BaseProNode>();
 	}
 
 	/**
 	 * @return the parentNodes
 	 */
-	public List<AbstractProNode> getParentNodes() {
+	public List<BaseProNode> getParentNodes() {
 		return parentNodes;
 	}
 
 	/**
 	 * @param parentNodes the parentNodes to set
 	 */
-	public void setParentNodes(List<AbstractProNode> parentNodes) {
+	public void setParentNodes(List<BaseProNode> parentNodes) {
 		this.parentNodes = parentNodes;
+	}
+
+	@Override
+	public void addChildNode(BaseProNode node) {
+		
+	}
+	
+
+	@Override
+	public void addParentNode(BaseProNode node) {
+		this.parentNodes.add(node);
 	}
 }

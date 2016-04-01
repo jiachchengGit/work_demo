@@ -17,9 +17,9 @@ import com.jd.jcc.engine.model.ProNodeTypeEnum;
  * @date 2016年3月31日 下午1:38:26 
  *  
  */
-public class StartProNode extends AbstractProNode {
+public class StartProNode extends BaseProNode {
 	
-	private AbstractProNode nextNode;
+	private BaseProNode nextNode;
 	
 	public StartProNode() {
 		super(ProNodeTypeEnum.start.name());
@@ -28,14 +28,24 @@ public class StartProNode extends AbstractProNode {
 	/**
 	 * @return the nextNode
 	 */
-	public AbstractProNode getNextNode() {
+	public BaseProNode getNextNode() {
 		return nextNode;
 	}
 
 	/**
 	 * @param nextNode the nextNode to set
 	 */
-	public void setNextNode(AbstractProNode nextNode) {
+	public void setNextNode(BaseProNode nextNode) {
 		this.nextNode = nextNode;
+	}
+
+	@Override
+	public void addChildNode(BaseProNode node) {
+		this.nextNode = node;
+	}
+
+	@Override
+	public void addParentNode(BaseProNode node) {
+		
 	}
 }

@@ -10,7 +10,7 @@ package com.jd.jcc.engine.model;
 
 import java.util.Map;
 
-import com.jd.jcc.engine.nodedefine.AbstractProNode;
+import com.jd.jcc.engine.nodedefine.BaseProNode;
 
 /** 
  * @ClassName: ProcessBean 
@@ -20,30 +20,44 @@ import com.jd.jcc.engine.nodedefine.AbstractProNode;
  *  
  */
 public class ProcessBean {
-	private AbstractProNode startNode;
-	private Map<String,AbstractProNode> nodes;
+	private String processId;
+	private BaseProNode startNode;
+	private Map<String,BaseProNode> nodes;
+	
+	/**
+	 * @return the processId
+	 */
+	public String getProcessId() {
+		return processId;
+	}
+	/**
+	 * @param processId the processId to set
+	 */
+	public void setProcessId(String processId) {
+		this.processId = processId;
+	}
 	/**
 	 * @return the startNode
 	 */
-	public AbstractProNode getStartNode() {
+	public BaseProNode getStartNode() {
 		return startNode;
 	}
 	/**
 	 * @param startNode the startNode to set
 	 */
-	public void setStartNode(AbstractProNode startNode) {
+	public void setStartNode(BaseProNode startNode) {
 		this.startNode = startNode;
 	}
 	/**
 	 * @return the nodes
 	 */
-	public Map<String, AbstractProNode> getNodes() {
+	public Map<String, BaseProNode> getNodes() {
 		return nodes;
 	}
 	/**
 	 * @param nodes the nodes to set
 	 */
-	public void setNodes(Map<String, AbstractProNode> nodes) {
+	public void setNodes(Map<String, BaseProNode> nodes) {
 		this.nodes = nodes;
 	}
 }
