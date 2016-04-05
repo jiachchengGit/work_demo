@@ -10,7 +10,6 @@ package com.jd.jcc.engine.dao;
 
 import java.util.List;
 
-import com.jd.jcc.engine.model.ReplyInterfaceConfig;
 import com.jd.jcc.engine.model.ReplyInterfaceDefine;
 import com.jd.jcc.engine.nodedefine.BaseProNode;
 import com.jd.jcc.engine.nodedefine.BranchNodeItem;

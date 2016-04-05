@@ -29,9 +29,9 @@ import com.jd.jcc.engine.nodedefine.BranchExpressionItem;
  *  
  */
 
-public class BranchExpressUtils {
+public class BrandExpressUtils {
 	
-	private static Logger log = LoggerFactory.getLogger(BranchExpressUtils.class);
+	private static Logger log = LoggerFactory.getLogger(BrandExpressUtils.class);
 	
 	
 	public static ExpressionAssemblyResult assemblyBranchExpress(BranchExpression expression){

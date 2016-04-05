@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 
 import com.jcc.demo.expression.IkExpressionUtils;
 import com.jcc.demo.expression.VariableType;
-import com.jd.jcc.engine.common.BranchExpressUtils;
+import com.jd.jcc.engine.common.BrandExpressUtils;
 import com.jd.jcc.engine.model.ExpressionAssemblyResult;
 import com.jd.jcc.engine.model.ProNodeTypeEnum;
 import com.jd.jcc.engine.model.ProParam;
@@ -30,7 +30,7 @@ import com.jd.jcc.engine.nodedefine.BusinessProNode;
 import com.jd.jcc.engine.nodedefine.ParallelProNode;
 import com.jd.jcc.engine.nodedefine.StartProNode;
 import com.jd.jcc.engine.nodedefine.SubProNode;
-import com.jd.jcc.engine.service.IBranchItemValueParse;
+import com.jd.jcc.engine.service.IBrandItemValueParse;
 import com.jd.jcc.engine.service.IBusinessNodeService;
 import com.jd.jcc.engine.service.IProcessNodeService;
 
@@ -43,7 +43,7 @@ import com.jd.jcc.engine.service.IProcessNodeService;
  */
 public class ProcessExcuteEngine {
 	private Logger log  = LoggerFactory.getLogger(ProcessExcuteEngine.class);
-	private IBranchItemValueParse branchItemValueParse;
+	private IBrandItemValueParse brandItemValueParse;
 	private IBusinessNodeService businessNodeService;
 	private IProcessNodeService processNodeService;
 	
@@ -62,7 +62,7 @@ public class ProcessExcuteEngine {
 	 * @param param        
 	 * @throws 
 	 */
-	private void excuteSubProcessNode(BaseProNode node, ProParam param) {
+	private void fuckSubProcessNode(BaseProNode node, ProParam param) {
 		SubProNode sn = (SubProNode)node;
 		ProcessBean proBean = getProcessBean(sn.getSubProcessId());
 		startExcuteProcess(param, proBean);
@@ -96,19 +96,19 @@ public class ProcessExcuteEngine {
 	private void excuteNode(BaseProNode parentNode,BaseProNode node,Map<String, BaseProNode> nodes, ProParam param) {
 		String nodeType = node.getNodeType();
 		if(ProNodeTypeEnum.start.name().equals(nodeType)){
-			excuteStartNode(node,nodes,param);
+			fuckStartNode(node,nodes,param);
 		}if(ProNodeTypeEnum.end.name().equals(nodeType)){
-			excuteEndNode(node,nodes,param);
+			fuckEndNode(node,nodes,param);
 		}if(ProNodeTypeEnum.business.name().equals(nodeType)){
-			excuteBusinessNode(node,nodes,param);
+			fuckBusinessNode(node,nodes,param);
 		}if(ProNodeTypeEnum.branch.name().equals(nodeType)){
-			excuteBranchNode(node,nodes,param);
+			fuckBranchNode(node,nodes,param);
 		}if(ProNodeTypeEnum.parallel.name().equals(nodeType)){
-			excuteParallelNode(node,nodes,param);
+			fuckParallelNode(node,nodes,param);
 		}if(ProNodeTypeEnum.aggregation.name().equals(nodeType)){
-			excuteAggregationNode(parentNode,node,nodes,param);
+			fuckAggregationNode(parentNode,node,nodes,param);
 		}if(ProNodeTypeEnum.sub_process.name().equals(nodeType)){
-			excuteSubProcessNode(node,param);
+			fuckSubProcessNode(node,param);
 		}
 	}
 
@@ -122,7 +122,7 @@ public class ProcessExcuteEngine {
 	 * @param param        
 	 * @throws 
 	 */
-	private void excuteAggregationNode(BaseProNode parentNode,BaseProNode node,Map<String, BaseProNode> nodes, ProParam param) {
+	private void fuckAggregationNode(BaseProNode parentNode,BaseProNode node,Map<String, BaseProNode> nodes, ProParam param) {
 		AggregationProNode an = (AggregationProNode)node;
 		List<BaseProNode> parentNodes = an.getParentNodes();
 		BaseProNode nextNode = an.getNextNode();
@@ -196,7 +196,7 @@ public class ProcessExcuteEngine {
 	 * @param param        
 	 * @throws 
 	 */
-	private void excuteParallelNode(BaseProNode node,Map<String, BaseProNode> nodes, ProParam param) {
+	private void fuckParallelNode(BaseProNode node,Map<String, BaseProNode> nodes, ProParam param) {
 		ParallelProNode ppn = (ParallelProNode)node;
 		List<BaseProNode> nextNodes = ppn.getNextNodes();
 		for(BaseProNode n:nextNodes){
@@ -244,15 +244,15 @@ public class ProcessExcuteEngine {
 	 * @param param        
 	 * @throws 
 	 */
-	private void excuteBranchNode(BaseProNode node,Map<String, BaseProNode> nodes, ProParam param) {
+	private void fuckBranchNode(BaseProNode node,Map<String, BaseProNode> nodes, ProParam param) {
 		BranchProNode bn = (BranchProNode)node;
-		String nextNodeKey=excuteExpress(bn,param);
+		String nextNodeKey=doBrandExpress(bn,param);
 		BaseProNode nextNode = nodes.get(nextNodeKey);
 		excuteNode(bn,nextNode, nodes, param);
 	}
 
 	/** 
-	 * @Description: TODO(这里用一句话描述这个方法的作用) 
+	 * @Description: 执行分支表达式
 	 * @Author chenjiacheng
 	 * @Date 2016年3月31日 下午3:09:15
 	 * @param bn
@@ -260,11 +260,11 @@ public class ProcessExcuteEngine {
 	 * @return        
 	 * @throws 
 	 */
-	private String excuteExpress(BranchProNode bn, ProParam param) {
+	private String doBrandExpress(BranchProNode bn, ProParam param) {
 		List<BranchNodeItem> items = bn.getItems();
 		for(BranchNodeItem i:items){
-			ExpressionAssemblyResult express = BranchExpressUtils.assemblyBranchExpress(i.getBranchExpression());
-			Map<String, VariableType> parseVariableValue = branchItemValueParse.parseVariableValue(express.getValues(),param.getRequestParam());
+			ExpressionAssemblyResult express = BrandExpressUtils.assemblyBranchExpress(i.getBranchExpression());
+			Map<String, VariableType> parseVariableValue = brandItemValueParse.parseVariableValue(express.getValues(),param.getRequestParam());
 			boolean flag = IkExpressionUtils.logicExpression(express.getExpression(), parseVariableValue);
 			if(flag){
 				return i.getNextNodeKey();
@@ -283,7 +283,7 @@ public class ProcessExcuteEngine {
 	 * @param param        
 	 * @throws 
 	 */
-	private void excuteBusinessNode(BaseProNode node,Map<String, BaseProNode> nodes, ProParam param) {
+	private void fuckBusinessNode(BaseProNode node,Map<String, BaseProNode> nodes, ProParam param) {
 		//执行业务逻辑
 		BusinessProNode bn = (BusinessProNode)node;
 		ProResult pr = doBusinessWork(bn,param);
@@ -321,7 +321,7 @@ public class ProcessExcuteEngine {
 	 * @param param        
 	 * @throws 
 	 */
-	private ProResult excuteEndNode(BaseProNode node, Map<String, BaseProNode> nodes, ProParam param) {
+	private ProResult fuckEndNode(BaseProNode node, Map<String, BaseProNode> nodes, ProParam param) {
 		log.info(">>[流程执行结束]<<--processId="+node.getProcessId());
 		return param.getResult();
 	}
@@ -335,7 +335,7 @@ public class ProcessExcuteEngine {
 	 * @param param        
 	 * @throws 
 	 */
-	private void excuteStartNode(BaseProNode node,Map<String, BaseProNode> nodes, ProParam param) {
+	private void fuckStartNode(BaseProNode node,Map<String, BaseProNode> nodes, ProParam param) {
 		StartProNode sn = (StartProNode)node;
 		BaseProNode nextNode = sn.getNextNode();
 		excuteNode(sn,nextNode, nodes, param);
