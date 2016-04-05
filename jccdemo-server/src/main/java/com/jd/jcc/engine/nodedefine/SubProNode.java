@@ -20,11 +20,28 @@ import com.jd.jcc.engine.model.ProNodeTypeEnum;
 public class SubProNode extends BaseProNode {
 	//子流程ID
 	private String subProcessId;
+	private BaseProNode nextNode;
 	
 	public SubProNode() {
 		super(ProNodeTypeEnum.sub_process.name());
 	}
 	
+	/**
+	 * @return the nextNode
+	 */
+	public BaseProNode getNextNode() {
+		return nextNode;
+	}
+
+
+	/**
+	 * @param nextNode the nextNode to set
+	 */
+	public void setNextNode(BaseProNode nextNode) {
+		this.nextNode = nextNode;
+	}
+
+
 	/**
 	 * @return the subProcessId
 	 */
@@ -42,8 +59,7 @@ public class SubProNode extends BaseProNode {
 
 	@Override
 	public void addChildNode(BaseProNode node) {
-		
-		
+		this.nextNode = node;
 	}
 
 	@Override

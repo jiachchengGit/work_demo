@@ -28,6 +28,7 @@ import com.jd.jcc.engine.nodedefine.BranchProNode;
 import com.jd.jcc.engine.nodedefine.BusinessProNode;
 import com.jd.jcc.engine.nodedefine.EndProNode;
 import com.jd.jcc.engine.nodedefine.BranchNodeItem;
+import com.jd.jcc.engine.nodedefine.ParallelLineItem;
 import com.jd.jcc.engine.nodedefine.ParallelProNode;
 import com.jd.jcc.engine.nodedefine.StartProNode;
 import com.jd.jcc.engine.nodedefine.SubProNode;
@@ -137,7 +138,8 @@ public class ProcessNodeServiceImpl implements IProcessNodeService {
 	private ParallelProNode packageParallelNode(BaseProNode n) {
 		ParallelProNode pn = new ParallelProNode();
 		BeanUtils.copyProperties(n, pn);
-		
+		List<ParallelLineItem> lineItems = processNodeDao.queryParallelLineItemByNodeKey(n.getNodeKey());
+		pn.setLineItems(lineItems);
 		return pn;
 	}
 	/** 
@@ -165,7 +167,7 @@ public class ProcessNodeServiceImpl implements IProcessNodeService {
 		SubProNode sn = new SubProNode();
 		BeanUtils.copyProperties(n, sn);
 		String nodeId = n.getNodeId();
-		String processId = processNodeDao.querySubProcessByNodeId(nodeId);
+		String processId = processNodeDao.querySubProcessByNodeKey(nodeId);
 		sn.setSubProcessId(processId);
 		return sn;
 	}
@@ -181,7 +183,7 @@ public class ProcessNodeServiceImpl implements IProcessNodeService {
 	private BranchProNode packageBranchNode(BaseProNode n) {
 		BranchProNode bn = new BranchProNode();
 		BeanUtils.copyProperties(n, bn);
-		List<BranchNodeItem> items = processNodeDao.queryBranchItemByNodeId(bn.getNodeId());
+		List<BranchNodeItem> items = processNodeDao.queryBranchItemByNodeKey(bn.getNodeId());
 		if(items != null && items.size() > 0){
 			for(BranchNodeItem ni:items){
 				String expression = ni.getExpression();

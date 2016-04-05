@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class ReplyInterfaceDefine {
 	private String id;
-	private String refNodeId;
+	private String refNodeKey;
 	private String interfaceCode;
 	private String interfaceName;
 	private String interfaceType;	
@@ -28,17 +28,17 @@ public class ReplyInterfaceDefine {
 	private List<ReplyInterfaceConfig> config;
 	
 	/**
-	 * @return the refNodeId
+	 * @return the refNodeKey
 	 */
-	public String getRefNodeId() {
-		return refNodeId;
+	public String getRefNodeKey() {
+		return refNodeKey;
 	}
 
 	/**
-	 * @param refNodeId the refNodeId to set
+	 * @param refNodeKey the refNodeKey to set
 	 */
-	public void setRefNodeId(String refNodeId) {
-		this.refNodeId = refNodeId;
+	public void setRefNodeKey(String refNodeKey) {
+		this.refNodeKey = refNodeKey;
 	}
 
 	/**

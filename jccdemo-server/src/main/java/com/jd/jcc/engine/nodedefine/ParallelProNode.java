@@ -24,12 +24,29 @@ public class ParallelProNode extends BaseProNode {
 	
 	private BaseProNode parentNode;
 	private List<BaseProNode> nextNodes;
+	private List<ParallelLineItem> lineItems;
 	
 	public ParallelProNode() {
 		super(ProNodeTypeEnum.parallel.name());
 		nextNodes = new ArrayList<BaseProNode>();
 	}
 	
+	/**
+	 * @return the lineItems
+	 */
+	public List<ParallelLineItem> getLineItems() {
+		return lineItems;
+	}
+
+
+	/**
+	 * @param lineItems the lineItems to set
+	 */
+	public void setLineItems(List<ParallelLineItem> lineItems) {
+		this.lineItems = lineItems;
+	}
+
+
 	/**
 	 * @return the parentNode
 	 */

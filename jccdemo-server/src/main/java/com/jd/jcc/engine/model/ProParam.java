@@ -8,11 +8,6 @@
 */
 package com.jd.jcc.engine.model;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 /** 
  * @ClassName: ProParam 
  * @Description: TODO(这里用一句话描述这个类的作用) 

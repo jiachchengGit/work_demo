@@ -8,16 +8,18 @@
 */
 package com.jd.jcc.engine;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.concurrent.Callable;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.jcc.demo.expression.IkExpressionUtils;
-import com.jcc.demo.expression.VariableType;
-import com.jd.jcc.engine.common.BrandExpressUtils;
-import com.jd.jcc.engine.model.ExpressionAssemblyResult;
+import com.jd.jcc.engine.common.ExcutorThreadPool;
 import com.jd.jcc.engine.model.ProNodeTypeEnum;
 import com.jd.jcc.engine.model.ProParam;
 import com.jd.jcc.engine.model.ProResult;
@@ -30,7 +32,7 @@ import com.jd.jcc.engine.nodedefine.BusinessProNode;
 import com.jd.jcc.engine.nodedefine.ParallelProNode;
 import com.jd.jcc.engine.nodedefine.StartProNode;
 import com.jd.jcc.engine.nodedefine.SubProNode;
-import com.jd.jcc.engine.service.IBrandItemValueParse;
+import com.jd.jcc.engine.service.IBrandItemExpressEngine;
 import com.jd.jcc.engine.service.IBusinessNodeService;
 import com.jd.jcc.engine.service.IProcessNodeService;
 
@@ -43,7 +45,7 @@ import com.jd.jcc.engine.service.IProcessNodeService;
  */
 public class ProcessExcuteEngine {
 	private Logger log  = LoggerFactory.getLogger(ProcessExcuteEngine.class);
-	private IBrandItemValueParse brandItemValueParse;
+	private IBrandItemExpressEngine brandItemExpressEngine;
 	private IBusinessNodeService businessNodeService;
 	private IProcessNodeService processNodeService;
 	
@@ -62,10 +64,11 @@ public class ProcessExcuteEngine {
 	 * @param param        
 	 * @throws 
 	 */
-	private void fuckSubProcessNode(BaseProNode node, ProParam param) {
+	private BaseProNode fuckSubProcessNode(BaseProNode node, ProParam param) {
 		SubProNode sn = (SubProNode)node;
 		ProcessBean proBean = getProcessBean(sn.getSubProcessId());
 		startExcuteProcess(param, proBean);
+		return sn.getNextNode();
 	}
 
 	/** 
@@ -79,37 +82,41 @@ public class ProcessExcuteEngine {
 	 */
 	private void startExcuteProcess(ProParam param, ProcessBean proBean) {
 		BaseProNode startNode = proBean.getStartNode();
-		Map<String, BaseProNode> nodes = proBean.getNodes();
-		excuteNode(null,startNode,nodes,param);
+		excuteNodes(param, startNode);
 	}
 
-	/** 
-	 * @Description: TODO(这里用一句话描述这个方法的作用) 
+	/**
+	 * @Description: 根据节点类型执行节点任务
 	 * @Author chenjiacheng
-	 * @Date 2016年3月31日 下午2:47:32
-	 * @param startNode
-	 * @param nodes
+	 * @Date 2016年4月5日 下午2:29:21
 	 * @param param
-	 * @return        
-	 * @throws 
+	 * @param startNode
+	 * @return   返回下一个执行节点
+	 * @throws
 	 */
-	private void excuteNode(BaseProNode parentNode,BaseProNode node,Map<String, BaseProNode> nodes, ProParam param) {
-		String nodeType = node.getNodeType();
-		if(ProNodeTypeEnum.start.name().equals(nodeType)){
-			fuckStartNode(node,nodes,param);
-		}if(ProNodeTypeEnum.end.name().equals(nodeType)){
-			fuckEndNode(node,nodes,param);
-		}if(ProNodeTypeEnum.business.name().equals(nodeType)){
-			fuckBusinessNode(node,nodes,param);
-		}if(ProNodeTypeEnum.branch.name().equals(nodeType)){
-			fuckBranchNode(node,nodes,param);
-		}if(ProNodeTypeEnum.parallel.name().equals(nodeType)){
-			fuckParallelNode(node,nodes,param);
-		}if(ProNodeTypeEnum.aggregation.name().equals(nodeType)){
-			fuckAggregationNode(parentNode,node,nodes,param);
-		}if(ProNodeTypeEnum.sub_process.name().equals(nodeType)){
-			fuckSubProcessNode(node,param);
+	private BaseProNode excuteNodes(ProParam param, BaseProNode startNode) {
+		BaseProNode nextNode = startNode;
+		while(nextNode != null){
+			String nodeType = nextNode.getNodeType();
+			if(ProNodeTypeEnum.start.name().equals(nodeType)){
+				nextNode = fuckStartNode(nextNode,param);
+			}if(ProNodeTypeEnum.end.name().equals(nodeType)){
+				nextNode = fuckEndNode(nextNode,param);
+			}if(ProNodeTypeEnum.business.name().equals(nodeType)){
+				nextNode = fuckBusinessNode(nextNode,param);
+			}if(ProNodeTypeEnum.branch.name().equals(nodeType)){
+				nextNode = fuckBranchNode(nextNode,param);
+			}if(ProNodeTypeEnum.parallel.name().equals(nodeType)){
+				nextNode = fuckParallelNode(nextNode,param);
+			}if(ProNodeTypeEnum.aggregation.name().equals(nodeType)){
+				//当节点为聚合节点时要退出
+				nextNode = fuckAggregationNode(nextNode,param);
+				break;
+			}if(ProNodeTypeEnum.sub_process.name().equals(nodeType)){
+				nextNode = fuckSubProcessNode(nextNode,param);
+			}
 		}
+		return nextNode;
 	}
 
 	/**
@@ -122,58 +129,13 @@ public class ProcessExcuteEngine {
 	 * @param param        
 	 * @throws 
 	 */
-	private void fuckAggregationNode(BaseProNode parentNode,BaseProNode node,Map<String, BaseProNode> nodes, ProParam param) {
+	private BaseProNode fuckAggregationNode(BaseProNode node,ProParam param) {
 		AggregationProNode an = (AggregationProNode)node;
-		List<BaseProNode> parentNodes = an.getParentNodes();
-		BaseProNode nextNode = an.getNextNode();
-		param.getProContext().getParallelResults().put(parentNode.getNodeKey(), param.getResult());
-		boolean flag = true;
-		while(flag){
-			int i=0;
-			for(BaseProNode pn:parentNodes){
-				String nodeKey = pn.getNodeKey();
-				if(param.getProContext().getParallelResults().containsKey(nodeKey)){
-					i=i+1;
-				}
-			}
-			if(i == parentNodes.size()){
-				flag = false;
-			}else{
-				try {
-					Thread.sleep(10);
-				} catch (InterruptedException e) {
-				}
-			}
-		}
-		
-		//多线程并发时，只能由一个线程继续往下走
-		boolean isBack = checkPallelFlag(an.getNodeKey(),param);
-		if(isBack){
-			return;
-		}else{
-			doAggregationWork(an,param);
-			excuteNode(an,nextNode, nodes, param);
-		}
+		return an;
 	}
 
 	/**
-	 * @param param  
-	 * @Description: TODO(这里用一句话描述这个方法的作用) 
-	 * @Author chenjiacheng
-	 * @Date 2016年3月31日 下午5:16:32
-	 * @param nodeKey
-	 * @return        
-	 * @throws 
-	 */
-	private synchronized boolean checkPallelFlag(String nodeKey, ProParam param) {
-		boolean flag = param.getProContext().getAggregationKey().contains(nodeKey);
-		if(!flag){
-			param.getProContext().getAggregationKey().add(nodeKey);
-		}
-		return flag;
-	}
-
-	/** 
+	 * @param nodeResults  
 	 * @Description: TODO(这里用一句话描述这个方法的作用) 
 	 * @Author chenjiacheng
 	 * @Date 2016年3月31日 下午4:00:40
@@ -181,9 +143,14 @@ public class ProcessExcuteEngine {
 	 * @param param        
 	 * @throws 
 	 */
-	private void doAggregationWork(AggregationProNode an, ProParam param) {
+	private void doAggregationWork(AggregationProNode an, ProParam param, Map<String, ProParam> parallelResult) {
 		
-		
+		Set<Entry<String, ProParam>> es = parallelResult.entrySet();
+		for(Entry<String, ProParam> e: es){
+			String key = e.getKey();
+			ProParam value = e.getValue();
+			param.getProContext().getResults().addAll(value.getProContext().getResults());
+		}
 	}
 
 	/**
@@ -196,41 +163,36 @@ public class ProcessExcuteEngine {
 	 * @param param        
 	 * @throws 
 	 */
-	private void fuckParallelNode(BaseProNode node,Map<String, BaseProNode> nodes, ProParam param) {
+	private BaseProNode fuckParallelNode(BaseProNode node,ProParam param) {
 		ParallelProNode ppn = (ParallelProNode)node;
 		List<BaseProNode> nextNodes = ppn.getNextNodes();
+		List<ParallelTask> tasks = new ArrayList<ParallelTask>();
+		Map<String,ProParam> parallelResult= new HashMap<String,ProParam>();
 		for(BaseProNode n:nextNodes){
-			doParallelThread(ppn,n,nodes,param);
+			ProParam newParam = new ProParam();
+			newParam.setRequestParam(param.getRequestParam());
+			tasks.add(new ParallelTask(n,newParam));
+			parallelResult.put(n.getNodeKey(), newParam);
 		}
-	}
+		//处理聚合策略
+		List<BaseProNode> taskResults = ExcutorThreadPool.getPool().excuteTask(tasks, "Parallel-node-task-"+node.getNodeName());
+		AggregationProNode aggregationNode = (AggregationProNode)taskResults.get(0);
+		doAggregationWork(aggregationNode, param,parallelResult);
 
-	/** 
-	 * @Description: TODO(这里用一句话描述这个方法的作用) 
-	 * @Author chenjiacheng
-	 * @Date 2016年3月31日 下午3:20:34
-	 * @param n
-	 * @param nodes
-	 * @param param
-	 * @return        
-	 * @throws 
-	 */
-	private void doParallelThread(BaseProNode ppn,BaseProNode n,Map<String, BaseProNode> nodes, ProParam param) {
-		new Thread(new ParallelThread(ppn,n,nodes,param),"ParallelThread-"+n.getNodeName()).start();
+		//聚合节点的下个节点是一样的
+		return aggregationNode.getNextNode();
 	}
 	
-	private class ParallelThread implements Runnable{
-		private BaseProNode parentNode;
-		private BaseProNode n;
-		private Map<String, BaseProNode> nodes;
+	class ParallelTask implements Callable<BaseProNode>{
+		private BaseProNode node;
 		private ProParam param;
-		public ParallelThread(BaseProNode parentNode,BaseProNode n,Map<String, BaseProNode> nodes, ProParam param){
-			this.parentNode=parentNode;
-			this.n=n;
-			this.nodes=nodes;
+		public ParallelTask(BaseProNode node,ProParam param){
+			this.node =node;
 			this.param=param;
 		}
-		public void run() {
-			excuteNode(parentNode,n, nodes, param);
+		public BaseProNode call() throws Exception {
+			BaseProNode nextNodes = excuteNodes(param,node);
+			return nextNodes;
 		}
 	}
 	
@@ -244,11 +206,15 @@ public class ProcessExcuteEngine {
 	 * @param param        
 	 * @throws 
 	 */
-	private void fuckBranchNode(BaseProNode node,Map<String, BaseProNode> nodes, ProParam param) {
+	private BaseProNode fuckBranchNode(BaseProNode node, ProParam param) {
 		BranchProNode bn = (BranchProNode)node;
 		String nextNodeKey=doBrandExpress(bn,param);
-		BaseProNode nextNode = nodes.get(nextNodeKey);
-		excuteNode(bn,nextNode, nodes, param);
+		for(BaseProNode n: bn.getNextNodes()){
+			if(nextNodeKey.equals(n.getNodeKey())){
+				return n;
+			}
+		}
+		return null;
 	}
 
 	/** 
@@ -263,9 +229,7 @@ public class ProcessExcuteEngine {
 	private String doBrandExpress(BranchProNode bn, ProParam param) {
 		List<BranchNodeItem> items = bn.getItems();
 		for(BranchNodeItem i:items){
-			ExpressionAssemblyResult express = BrandExpressUtils.assemblyBranchExpress(i.getBranchExpression());
-			Map<String, VariableType> parseVariableValue = brandItemValueParse.parseVariableValue(express.getValues(),param.getRequestParam());
-			boolean flag = IkExpressionUtils.logicExpression(express.getExpression(), parseVariableValue);
+			boolean flag = brandItemExpressEngine.excuteExpress(i.getBranchExpression(),param.getRequestParam());
 			if(flag){
 				return i.getNextNodeKey();
 			}
@@ -283,14 +247,13 @@ public class ProcessExcuteEngine {
 	 * @param param        
 	 * @throws 
 	 */
-	private void fuckBusinessNode(BaseProNode node,Map<String, BaseProNode> nodes, ProParam param) {
+	private BaseProNode fuckBusinessNode(BaseProNode node, ProParam param) {
 		//执行业务逻辑
 		BusinessProNode bn = (BusinessProNode)node;
 		ProResult pr = doBusinessWork(bn,param);
 		param.setResult(pr);
 		//执行下个节点
-		BaseProNode nextNode = bn.getNextNode();
-		excuteNode(bn,nextNode, nodes, param);
+		return  bn.getNextNode();
 	}
 
 	/** 
@@ -307,6 +270,7 @@ public class ProcessExcuteEngine {
 		Object requestParam = param.getRequestParam();
 		Object result = businessNodeService.excuteService(node,requestParam);
 		pr.setResult(result);
+		pr.setNode(node);
 		return pr;
 	}
 
@@ -321,12 +285,13 @@ public class ProcessExcuteEngine {
 	 * @param param        
 	 * @throws 
 	 */
-	private ProResult fuckEndNode(BaseProNode node, Map<String, BaseProNode> nodes, ProParam param) {
+	private BaseProNode fuckEndNode(BaseProNode node,ProParam param) {
 		log.info(">>[流程执行结束]<<--processId="+node.getProcessId());
-		return param.getResult();
+		return null;
 	}
 
-	/** 
+	/**
+	 * @return  
 	 * @Description: TODO(这里用一句话描述这个方法的作用) 
 	 * @Author chenjiacheng
 	 * @Date 2016年3月31日 下午2:49:49
@@ -335,10 +300,10 @@ public class ProcessExcuteEngine {
 	 * @param param        
 	 * @throws 
 	 */
-	private void fuckStartNode(BaseProNode node,Map<String, BaseProNode> nodes, ProParam param) {
+	private BaseProNode fuckStartNode(BaseProNode node,ProParam param) {
 		StartProNode sn = (StartProNode)node;
 		BaseProNode nextNode = sn.getNextNode();
-		excuteNode(sn,nextNode, nodes, param);
+		return nextNode;
 	}
 
 	/** 

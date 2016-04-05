@@ -8,6 +8,8 @@
 */
 package com.jd.jcc.engine.model;
 
+import com.jd.jcc.engine.nodedefine.BaseProNode;
+
 /** 
  * @ClassName: ProResult 
  * @Description: TODO(这里用一句话描述这个类的作用) 
@@ -19,6 +21,22 @@ package com.jd.jcc.engine.model;
 public class ProResult {
 	
 	private Object result;
+
+	private BaseProNode node;
+	
+	/**
+	 * @return the node
+	 */
+	public BaseProNode getNode() {
+		return node;
+	}
+
+	/**
+	 * @param node the node to set
+	 */
+	public void setNode(BaseProNode node) {
+		this.node = node;
+	}
 
 	/**
 	 * @return the result

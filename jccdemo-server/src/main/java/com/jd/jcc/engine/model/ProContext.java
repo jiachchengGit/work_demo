@@ -9,9 +9,7 @@
 package com.jd.jcc.engine.model;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /** 
  * @ClassName: ProContext 
@@ -23,8 +21,6 @@ import java.util.Map;
 public class ProContext {
 	
 	private List<ProResult> results = new ArrayList<ProResult>();
-	private Map<String,ProResult> parallelResults = new HashMap<String,ProResult>();
-	private List<String> aggregationKey = new ArrayList<String>();
 	/**
 	 * @return the results
 	 */
@@ -36,29 +32,5 @@ public class ProContext {
 	 */
 	public void setResults(List<ProResult> results) {
 		this.results = results;
-	}
-	/**
-	 * @return the parallelResults
-	 */
-	public Map<String, ProResult> getParallelResults() {
-		return parallelResults;
-	}
-	/**
-	 * @param parallelResults the parallelResults to set
-	 */
-	public void setParallelResults(Map<String, ProResult> parallelResults) {
-		this.parallelResults = parallelResults;
-	}
-	/**
-	 * @return the aggregationKey
-	 */
-	public List<String> getAggregationKey() {
-		return aggregationKey;
-	}
-	/**
-	 * @param aggregationKey the aggregationKey to set
-	 */
-	public void setAggregationKey(List<String> aggregationKey) {
-		this.aggregationKey = aggregationKey;
 	}
 }
