@@ -8,11 +8,9 @@
 */
 package com.jd.jcc.process;
 
-import org.springframework.beans.BeanUtils;
-
-import com.jd.jcc.process.nodedefine.BaseProNode;
-import com.jd.jcc.process.nodedefine.BusinessProNode;
-import com.jd.jcc.process.nodedefine.StartProNode;
+import com.jd.jcc.process.model.ProcessBean;
+import com.jd.jcc.process.service.IProcessNodeService;
+import com.jd.jcc.process.service.ProcessNodeServiceImpl;
 
 /** 
  * @ClassName: TestNode 
@@ -23,15 +21,10 @@ import com.jd.jcc.process.nodedefine.StartProNode;
  */
 public class TestNode {
 	public static void main(String[]args){
-		BusinessProNode bpn = new BusinessProNode();
-		StartProNode spn = new StartProNode();
-		spn.setNextNode(bpn);
-		System.out.println(spn.getNextNode().getClass());
-		BaseProNode s = new BaseProNode();
-		s.setNodeId("nodeId");
-		s.setNodeKey("nodeKey");
-		StartProNode t = new StartProNode();
-		BeanUtils.copyProperties(s, t);
-		System.out.println(s.getNodeKey());
+		IProcessNodeService ps = new ProcessNodeServiceImpl();
+		ProcessBean bean = ps.queryProcessBeanById("123");
+		if(bean != null){
+			
+		}
 	}
 }

@@ -17,10 +17,24 @@ package com.jd.jcc.process.nodedefine;
  */
 public class ParallelLineItem {
 	private String id;
-	private String refNodeKey;
+	private String name;
+	private String refNodeId;
 	private String nextNodeKey;
 	private String weight;
 	
+	
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
+	/**
+	 * @param name the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
 	/**
 	 * @return the id
 	 */
@@ -35,16 +49,16 @@ public class ParallelLineItem {
 	}
 
 	/**
-	 * @return the refNodeKey
+	 * @return the refNodeId
 	 */
-	public String getRefNodeKey() {
-		return refNodeKey;
+	public String getRefNodeId() {
+		return refNodeId;
 	}
 	/**
-	 * @param refNodeKey the refNodeKey to set
+	 * @param refNodeId the refNodeId to set
 	 */
-	public void setRefNodeKey(String refNodeKey) {
-		this.refNodeKey = refNodeKey;
+	public void setRefNodeId(String refNodeId) {
+		this.refNodeId = refNodeId;
 	}
 	/**
 	 * @return the nextNodeKey

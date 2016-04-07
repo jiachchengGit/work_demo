@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap 
+ PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"  
+ "http://www.ibatis.com/dtd/sql-map-2.dtd">  
+<sqlMap namespace="com.jd.jcc.process.dao.ProcessNodeDao">  
+ <select id="queryNodesByProId" parameterClass="com.jd.jcc.process.nodedefine.BaseProNode" 
+ 	resultClass="com.jd.jcc.process.nodedefine.BaseProNode">  
+    select n.id as nodeId,n.node_alias as nodeName
+          ,n.node_key as nodeKey,n.parent_key as parentKey
+          ,n.process_id as processId,n.node_status as nodeStatus
+          ,d.node_type as nodeType 
+   from p_process_node n,p_node_declare d
+   where n.process_id=#processId# and d.id = n.ref_node_declare_id
+</select>
+<select id="querySubProcessByNodeId" parameterClass="java.util.Map" 
+ 	resultClass="com.jd.jcc.process.nodedefine.ProcessModel">
+  select p.id,p.process_code as processCode
+        ,p.process_name as processName,p.process_status as processStatus
+        ,p.process_version as processVersion
+  from p_node_subprocess n,p_process_define p where n.sub_process_code = p.process_code
+       and p.process_status=#processStatus# and n.ref_node_id=#nodeId# ORDER BY p.process_version desc 
+</select>
+<select id="queryBranchItemByNodeId" parameterClass="java.util.Map" 
+ 	resultClass="com.jd.jcc.process.nodedefine.BranchNodeItem">
+ select i.expression as expression
+ 		,i.id,i.`name` as name
+        ,i.next_node_key as nextNodeKey
+        ,i.ref_node_id as refNodeId
+ from p_node_brand_item i where i.ref_node_id=#nodeId#
+</select>
+<select id="queryParallelLineItemByNodeId" parameterClass="java.util.Map" 
+ 	resultClass="com.jd.jcc.process.nodedefine.ParallelLineItem">
+	select i.id
+	       ,i.`name` as name
+	       ,i.next_node_key as nextNodeKey
+	       ,i.ref_node_id as refNodeId
+	       ,i.weight 
+	from p_node_parallel_item i
+	where i.ref_node_id=#nodeId#
+</select>
+</sqlMap> 

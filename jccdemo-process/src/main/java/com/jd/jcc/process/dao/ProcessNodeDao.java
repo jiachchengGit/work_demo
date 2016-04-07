@@ -14,6 +14,7 @@ import com.jd.jcc.process.model.ReplyInterfaceDefine;
 import com.jd.jcc.process.nodedefine.BaseProNode;
 import com.jd.jcc.process.nodedefine.BranchNodeItem;
 import com.jd.jcc.process.nodedefine.ParallelLineItem;
+import com.jd.jcc.process.nodedefine.ProcessModel;
 
 /** 
  * @ClassName: ProcessNodeDao 
@@ -42,7 +43,7 @@ public interface ProcessNodeDao {
 	 * @return        
 	 * @throws 
 	 */
-	String querySubProcessByNodeKey(String nodeId);
+	ProcessModel querySubProcessByNodeId(String nodeId);
 
 	/** 
 	 * @Description: TODO(这里用一句话描述这个方法的作用) 
@@ -52,7 +53,7 @@ public interface ProcessNodeDao {
 	 * @return        
 	 * @throws 
 	 */
-	List<ReplyInterfaceDefine> queryReplyInterfaceByNodeKey(String nodeId);
+	List<ReplyInterfaceDefine> queryReplyInterfaceByNodeId(String nodeId);
 
 	/** 
 	 * @Description: TODO(这里用一句话描述这个方法的作用) 
@@ -62,7 +63,7 @@ public interface ProcessNodeDao {
 	 * @return        
 	 * @throws 
 	 */
-	List<BranchNodeItem> queryBranchItemByNodeKey(String nodeKey);
+	List<BranchNodeItem> queryBranchItemByNodeId(String nodeKey);
 
 	/** 
 	 * @Description: TODO(这里用一句话描述这个方法的作用) 
@@ -72,6 +73,6 @@ public interface ProcessNodeDao {
 	 * @return        
 	 * @throws 
 	 */
-	List<ParallelLineItem> queryParallelLineItemByNodeKey(String nodeKey);
+	List<ParallelLineItem> queryParallelLineItemByNodeId(String nodeKey);
 
 }

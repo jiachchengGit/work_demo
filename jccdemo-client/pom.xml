@@ -24,7 +24,7 @@
 		</dependency>
 		<dependency>
 			<groupId>com.jcc.demo</groupId>
-			<artifactId>jccdemo-common</artifactId>
+			<artifactId>jccdemo-server</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
 	</dependencies>

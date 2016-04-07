@@ -22,13 +22,14 @@ import com.jd.jcc.process.model.ProNodeTypeEnum;
  */
 public class ParallelProNode extends BaseProNode {
 	
-	private BaseProNode parentNode;
+	private List<BaseProNode> parentNodes;
 	private List<BaseProNode> nextNodes;
 	private List<ParallelLineItem> lineItems;
 	
 	public ParallelProNode() {
 		super(ProNodeTypeEnum.parallel.name());
 		nextNodes = new ArrayList<BaseProNode>();
+		parentNodes = new ArrayList<BaseProNode>();
 	}
 	
 	/**
@@ -47,18 +48,21 @@ public class ParallelProNode extends BaseProNode {
 	}
 
 
+
 	/**
-	 * @return the parentNode
+	 * @return the parentNodes
 	 */
-	public BaseProNode getParentNode() {
-		return parentNode;
+	public List<BaseProNode> getParentNodes() {
+		return parentNodes;
 	}
+
 	/**
-	 * @param parentNode the parentNode to set
+	 * @param parentNodes the parentNodes to set
 	 */
-	public void setParentNode(BaseProNode parentNode) {
-		this.parentNode = parentNode;
+	public void setParentNodes(List<BaseProNode> parentNodes) {
+		this.parentNodes = parentNodes;
 	}
+
 	/**
 	 * @return the nextNodes
 	 */
@@ -79,6 +83,6 @@ public class ParallelProNode extends BaseProNode {
 
 	@Override
 	public void addParentNode(BaseProNode node) {
-		this.parentNode = node;
+		this.parentNodes.add(node);
 	}
 }

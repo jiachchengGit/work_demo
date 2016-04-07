@@ -19,13 +19,28 @@ public class BranchNodeItem {
 	
 	private String id;
 	
-	private String refNodeKey;
+	private String refNodeId;
 	
 	private String expression;
 	
 	private String nextNodeKey;
 	
+	private String name;
+	
 	private BranchExpression branchExpression;
+	
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
+	/**
+	 * @param name the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
 	
 	/**
 	 * @return the nextNodeKey
@@ -51,17 +66,18 @@ public class BranchNodeItem {
 	public void setBranchExpression(BranchExpression branchExpression) {
 		this.branchExpression = branchExpression;
 	}
+
 	/**
-	 * @return the refNodeKey
+	 * @return the refNodeId
 	 */
-	public String getRefNodeKey() {
-		return refNodeKey;
+	public String getRefNodeId() {
+		return refNodeId;
 	}
 	/**
-	 * @param refNodeKey the refNodeKey to set
+	 * @param refNodeId the refNodeId to set
 	 */
-	public void setRefNodeKey(String refNodeKey) {
-		this.refNodeKey = refNodeKey;
+	public void setRefNodeId(String refNodeId) {
+		this.refNodeId = refNodeId;
 	}
 	/**
 	 * @return the id

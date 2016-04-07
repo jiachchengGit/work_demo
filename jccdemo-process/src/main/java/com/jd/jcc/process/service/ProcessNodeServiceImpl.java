@@ -19,6 +19,7 @@ import org.springframework.beans.BeanUtils;
 
 import com.alibaba.fastjson.JSONObject;
 import com.jd.jcc.process.dao.ProcessNodeDao;
+import com.jd.jcc.process.dao.ProcessNodeDaoImpl;
 import com.jd.jcc.process.model.ProNodeTypeEnum;
 import com.jd.jcc.process.model.ProcessBean;
 import com.jd.jcc.process.nodedefine.BaseProNode;
@@ -30,6 +31,7 @@ import com.jd.jcc.process.nodedefine.EndProNode;
 import com.jd.jcc.process.nodedefine.BranchNodeItem;
 import com.jd.jcc.process.nodedefine.ParallelLineItem;
 import com.jd.jcc.process.nodedefine.ParallelProNode;
+import com.jd.jcc.process.nodedefine.ProcessModel;
 import com.jd.jcc.process.nodedefine.StartProNode;
 import com.jd.jcc.process.nodedefine.SubProNode;
 
@@ -44,7 +46,7 @@ public class ProcessNodeServiceImpl implements IProcessNodeService {
 	
 	private Logger log = LoggerFactory.getLogger(ProcessNodeServiceImpl.class);
 	
-	private ProcessNodeDao processNodeDao;
+	private ProcessNodeDao processNodeDao = new ProcessNodeDaoImpl();
 	
 	public ProcessBean queryProcessBeanById(String processId) {
 		ProcessBean pb = null;
@@ -138,7 +140,7 @@ public class ProcessNodeServiceImpl implements IProcessNodeService {
 	private ParallelProNode packageParallelNode(BaseProNode n) {
 		ParallelProNode pn = new ParallelProNode();
 		BeanUtils.copyProperties(n, pn);
-		List<ParallelLineItem> lineItems = processNodeDao.queryParallelLineItemByNodeKey(n.getNodeKey());
+		List<ParallelLineItem> lineItems = processNodeDao.queryParallelLineItemByNodeId(n.getNodeId());
 		pn.setLineItems(lineItems);
 		return pn;
 	}
@@ -167,8 +169,8 @@ public class ProcessNodeServiceImpl implements IProcessNodeService {
 		SubProNode sn = new SubProNode();
 		BeanUtils.copyProperties(n, sn);
 		String nodeId = n.getNodeId();
-		String processId = processNodeDao.querySubProcessByNodeKey(nodeId);
-		sn.setSubProcessId(processId);
+		ProcessModel pro = processNodeDao.querySubProcessByNodeId(nodeId);
+		sn.setSubProcessId(pro.getId());
 		return sn;
 	}
 	
@@ -183,7 +185,7 @@ public class ProcessNodeServiceImpl implements IProcessNodeService {
 	private BranchProNode packageBranchNode(BaseProNode n) {
 		BranchProNode bn = new BranchProNode();
 		BeanUtils.copyProperties(n, bn);
-		List<BranchNodeItem> items = processNodeDao.queryBranchItemByNodeKey(bn.getNodeId());
+		List<BranchNodeItem> items = processNodeDao.queryBranchItemByNodeId(bn.getNodeId());
 		if(items != null && items.size() > 0){
 			for(BranchNodeItem ni:items){
 				String expression = ni.getExpression();

@@ -8,6 +8,7 @@
 */
 package com.jd.jcc.process.nodedefine;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.jd.jcc.process.model.ProNodeTypeEnum;
@@ -27,6 +28,7 @@ public class BusinessProNode extends BaseProNode {
 	
 	public BusinessProNode() {
 		super(ProNodeTypeEnum.business.name());
+		this.parentNodes = new ArrayList<BaseProNode>();
 	}
 
 	/**

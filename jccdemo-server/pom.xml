@@ -26,6 +26,11 @@
 			<artifactId>jccdemo-common</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.jcc.demo</groupId>
+			<artifactId>jccdemo-process</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>jccdemo-server</finalName>
