@@ -16,7 +16,7 @@ import java.rmi.RemoteException;
 
 import org.jccdemo.api.rmi.IRmiService;
 
-import com.jccdemo.utils.JccConst;
+import com.jccdemo.constant.JccConst;
 
 /** 
  * @ClassName: ServiceClient 

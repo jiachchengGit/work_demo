@@ -12,7 +12,7 @@ import javax.jms.TextMessage;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 
-import com.jccdemo.utils.JccConst;
+import com.jccdemo.constant.JccConst;
 
 public class ActiveMqServer {
 

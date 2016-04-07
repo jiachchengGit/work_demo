@@ -12,7 +12,7 @@ import javax.jms.Topic;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 
-import com.jccdemo.utils.JccConst;
+import com.jccdemo.constant.JccConst;
 
 public class ActiveMqTopicClient {
 
