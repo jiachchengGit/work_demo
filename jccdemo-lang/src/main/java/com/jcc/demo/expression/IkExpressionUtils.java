@@ -15,6 +15,8 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.wltea.expression.ExpressionEvaluator;
 import org.wltea.expression.datameta.Variable;
 
@@ -26,7 +28,7 @@ import org.wltea.expression.datameta.Variable;
  *  
  */
 public class IkExpressionUtils {
-	
+	private static Logger log = LoggerFactory.getLogger(IkExpressionUtils.class);
 	public  static boolean logicExpression(String expression,Map<String,VariableType> values){
 		boolean flag=false;
 		List<Variable> variables =  new ArrayList<Variable>();
@@ -34,7 +36,9 @@ public class IkExpressionUtils {
 			Set<Entry<String, VariableType>> entrySet = values.entrySet();
 			for(Entry<String, VariableType> e:entrySet){
 				Object value = parseValue(e.getValue());
-				Variable v = Variable.createVariable(e.getKey(), value);
+				String key = e.getKey();
+				Variable v = Variable.createVariable(key, value);
+				log.info("#[表达式变量值，key={},value={}]#",new String[]{key,value+""});
 				variables.add(v);
 			}
 		}

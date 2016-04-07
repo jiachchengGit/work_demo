@@ -103,6 +103,7 @@ public class ProcessNodeServiceImpl implements IProcessNodeService {
 	 * @throws 
 	 */
 	private Map<String,BaseProNode> assemblyNodeAttrs(List<BaseProNode> nodes) {
+		log.info("***[组装节点属性]begin***");
 		Map<String,BaseProNode> nodeMap = null;
 		if(nodes != null && nodes.size() > 0){
 			nodeMap  = new HashMap<String,BaseProNode>();
@@ -127,6 +128,7 @@ public class ProcessNodeServiceImpl implements IProcessNodeService {
 				nodeMap.put(nn.getNodeKey(), nn);
 			}
 		}
+		log.info("***[组装节点属性]end***");
 		return nodeMap;
 	}
 	/** 
@@ -138,6 +140,7 @@ public class ProcessNodeServiceImpl implements IProcessNodeService {
 	 * @throws 
 	 */
 	private ParallelProNode packageParallelNode(BaseProNode n) {
+		log.info("***[组装节点属性]begin***nodeType={},nodeName={}",new String[]{n.getNodeType(),n.getNodeName()});
 		ParallelProNode pn = new ParallelProNode();
 		BeanUtils.copyProperties(n, pn);
 		List<ParallelLineItem> lineItems = processNodeDao.queryParallelLineItemByNodeId(n.getNodeId());
@@ -153,6 +156,7 @@ public class ProcessNodeServiceImpl implements IProcessNodeService {
 	 * @throws 
 	 */
 	private AggregationProNode packageAggregatrionNode(BaseProNode n) {
+		log.info("***[组装节点属性]begin***nodeType={},nodeName={}",new String[]{n.getNodeType(),n.getNodeName()});
 		AggregationProNode an = new AggregationProNode();
 		BeanUtils.copyProperties(n, an);
 		return an;
@@ -166,6 +170,7 @@ public class ProcessNodeServiceImpl implements IProcessNodeService {
 	 * @throws 
 	 */
 	private SubProNode packageSubProNode(BaseProNode n) {
+		log.info("***[组装节点属性]begin***nodeType={},nodeName={}",new String[]{n.getNodeType(),n.getNodeName()});
 		SubProNode sn = new SubProNode();
 		BeanUtils.copyProperties(n, sn);
 		String nodeId = n.getNodeId();
@@ -183,6 +188,7 @@ public class ProcessNodeServiceImpl implements IProcessNodeService {
 	 * @throws 
 	 */
 	private BranchProNode packageBranchNode(BaseProNode n) {
+		log.info("***[组装节点属性]begin***nodeType={},nodeName={}",new String[]{n.getNodeType(),n.getNodeName()});
 		BranchProNode bn = new BranchProNode();
 		BeanUtils.copyProperties(n, bn);
 		List<BranchNodeItem> items = processNodeDao.queryBranchItemByNodeId(bn.getNodeId());
@@ -205,6 +211,7 @@ public class ProcessNodeServiceImpl implements IProcessNodeService {
 	 * @throws 
 	 */
 	private BusinessProNode packageBusinessNode(BaseProNode n) {
+		log.info("***[组装节点属性]begin***nodeType={},nodeName={}",new String[]{n.getNodeType(),n.getNodeName()});
 		BusinessProNode bn = new BusinessProNode();
 		BeanUtils.copyProperties(n, bn);
 		return bn;
@@ -218,6 +225,7 @@ public class ProcessNodeServiceImpl implements IProcessNodeService {
 	 * @throws 
 	 */
 	private EndProNode packageEndNode(BaseProNode n) {
+		log.info("***[组装节点属性]begin***nodeType={},nodeName={}",new String[]{n.getNodeType(),n.getNodeName()});
 		EndProNode en = new EndProNode();
 		BeanUtils.copyProperties(n, en);
 		return en;
@@ -231,6 +239,7 @@ public class ProcessNodeServiceImpl implements IProcessNodeService {
 	 * @throws 
 	 */
 	private StartProNode packageStartNode(BaseProNode n) {
+		log.info("***[组装节点属性]begin***nodeType={},nodeName={}",new String[]{n.getNodeType(),n.getNodeName()});
 		StartProNode sn = new StartProNode();
 		BeanUtils.copyProperties(n, sn);
 		

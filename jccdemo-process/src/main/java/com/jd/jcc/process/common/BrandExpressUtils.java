@@ -8,6 +8,7 @@
 */
 package com.jd.jcc.process.common;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -37,7 +38,7 @@ public class BrandExpressUtils {
 	public static ExpressionAssemblyResult assemblyBranchExpress(BranchExpression expression){
 		ExpressionAssemblyResult result = new ExpressionAssemblyResult();
 		String expressionType = expression.getExpressionType();
-		Map<String, VariableType> codeValues =null;
+		Map<String, VariableType> codeValues =new HashMap<String,VariableType>();
 		String parseExpression = null;
 		if(BranchExpression.TYPE_RULE.equals(expressionType)){
 			parseExpression = parseRegexRule("user_quesion", expression.getScript(), codeValues);
@@ -83,15 +84,17 @@ public class BrandExpressUtils {
 		String symbol = item.getSymbol();
 		String connector = item.getConnector();
 		StringBuffer exp = new StringBuffer();
-		Class<?> classType = getValueClassType(expright);
+		Class<?> classType = getValueClassType(symbol);
 		if(StringUtils.isBlank(expright)){
 			expright = null;
 		}else{
-			VariableType valueRight = new VariableType(classType,VariableType.RIGHT);
+			VariableType valueRight = new VariableType(classType);
+			valueRight.setLeftOrRight(VariableType.RIGHT);
 			valueRight.setValue(expright);
 			codeValues.put(expright, valueRight);
 		}
-		VariableType valueLeft = new VariableType(classType,VariableType.RIGHT);
+		VariableType valueLeft = new VariableType(classType);
+		valueLeft.setLeftOrRight(VariableType.LEFT);
 		valueLeft.setValue(expleft);
 		codeValues.put(expleft, valueLeft);
 		
@@ -120,12 +123,15 @@ public class BrandExpressUtils {
 	 * @return        
 	 * @throws 
 	 */
-	private static Class<?> getValueClassType(String expright) {
-		if(StringUtils.isNotBlank(expright)){
-			String DIGITAL_REGEX="(^\\d+\\.{0,1}\\d+$)";
-			if(Pattern.compile(DIGITAL_REGEX).matcher(expright).find()){
+	private static Class<?> getValueClassType(String symbol) {
+		if(StringUtils.isNotBlank(symbol)){
+			symbol = symbol.trim();
+			if(symbol.equals(">")||symbol.equals(">=")||symbol.equals("<")||symbol.equals("<="))
+//			String DIGITAL_REGEX="(^\\d+\\.{0,1}\\d+$)";
+//			if(Pattern.compile(DIGITAL_REGEX).matcher(expright).find()){
+//				return Double.class;
+//			}
 				return Double.class;
-			}
 		}
 		return String.class;
 	}

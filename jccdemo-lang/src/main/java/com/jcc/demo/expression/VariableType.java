@@ -50,7 +50,7 @@ public class VariableType {
 	/**
 	 * @param valueType the valueType to set
 	 */
-	public void setValueType(String valueType,String leftOrRight) {
+	public void setValueType(String valueType) {
 		this.valueType = valueType;
 		this.leftOrRight = leftOrRight;
 	}

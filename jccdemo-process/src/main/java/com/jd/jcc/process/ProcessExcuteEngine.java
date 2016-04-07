@@ -33,8 +33,11 @@ import com.jd.jcc.process.nodedefine.ParallelProNode;
 import com.jd.jcc.process.nodedefine.StartProNode;
 import com.jd.jcc.process.nodedefine.SubProNode;
 import com.jd.jcc.process.service.BrandItemExpressEngine;
+import com.jd.jcc.process.service.BrandItemExpressEngineImpl;
 import com.jd.jcc.process.service.BusinessNodeService;
 import com.jd.jcc.process.service.IProcessNodeService;
+import com.jd.jcc.process.service.ProcessNodeServiceImpl;
+import com.jd.jcc.process.service.SimpleBusinessNodeServiceImpl;
 
 /** 
  * @ClassName: ProcessScheduler 
@@ -45,9 +48,9 @@ import com.jd.jcc.process.service.IProcessNodeService;
  */
 public class ProcessExcuteEngine {
 	private Logger log  = LoggerFactory.getLogger(ProcessExcuteEngine.class);
-	private BrandItemExpressEngine brandItemExpressEngine;
-	private BusinessNodeService businessNodeService;
-	private IProcessNodeService processNodeService;
+	private BrandItemExpressEngine brandItemExpressEngine = new BrandItemExpressEngineImpl();
+	private BusinessNodeService businessNodeService = new SimpleBusinessNodeServiceImpl();
+	private IProcessNodeService processNodeService = new ProcessNodeServiceImpl();
 	
 	public void excuteProcess(String processId,ProParam param){
 		log.info("***开始执行流程*** processId="+processId);

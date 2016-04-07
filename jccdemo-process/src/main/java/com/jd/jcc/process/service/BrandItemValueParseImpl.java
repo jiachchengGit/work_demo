@@ -12,6 +12,9 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Random;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.jcc.demo.expression.VariableType;
 
 /** 
@@ -22,13 +25,14 @@ import com.jcc.demo.expression.VariableType;
  *  
  */
 public class BrandItemValueParseImpl implements BrandItemValueParse {
-
+	private Logger log  = LoggerFactory.getLogger(getClass());
 	public Map<String, VariableType> parseVariableValue(Map<String, VariableType> codeValues, Object requestParam) {
 		if(codeValues != null && !codeValues.isEmpty()){
 			Collection<VariableType> values = codeValues.values();
 			for(VariableType v:values){
 				if(VariableType.LEFT.equals(v.getLeftOrRight())){
-					v.setValue(new Random().nextInt(100));
+					int nextInt = new Random().nextInt(5);
+					v.setValue(nextInt);
 				}
 			}
 		}
