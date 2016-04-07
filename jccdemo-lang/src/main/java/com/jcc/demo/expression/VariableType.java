@@ -16,13 +16,30 @@ package com.jcc.demo.expression;
  *  
  */
 public class VariableType {
-	
+	public static String LEFT="left";
+	public static String RIGHT="right";
 	private Class<?> classType;
 	
 	private Object value;
 	
 	private String valueType;
 	
+	private String leftOrRight;
+	
+	/**
+	 * @return the leftOrRight
+	 */
+	public String getLeftOrRight() {
+		return leftOrRight;
+	}
+
+	/**
+	 * @param leftOrRight the leftOrRight to set
+	 */
+	public void setLeftOrRight(String leftOrRight) {
+		this.leftOrRight = leftOrRight;
+	}
+
 	/**
 	 * @return the valueType
 	 */
@@ -33,8 +50,9 @@ public class VariableType {
 	/**
 	 * @param valueType the valueType to set
 	 */
-	public void setValueType(String valueType) {
+	public void setValueType(String valueType,String leftOrRight) {
 		this.valueType = valueType;
+		this.leftOrRight = leftOrRight;
 	}
 
 	/** 

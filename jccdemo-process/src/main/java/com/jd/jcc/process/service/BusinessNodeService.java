@@ -17,7 +17,7 @@ import com.jd.jcc.process.nodedefine.BaseProNode;
  * @date 2016年4月1日 下午5:38:54 
  *  
  */
-public interface IBusinessNodeService {
+public interface BusinessNodeService {
 
 	/** 
 	 * @Description: 业务节点执行接口 

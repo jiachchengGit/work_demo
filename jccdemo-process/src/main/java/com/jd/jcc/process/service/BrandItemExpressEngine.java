@@ -17,7 +17,7 @@ import com.jd.jcc.process.nodedefine.BranchExpression;
  * @date 2016年4月5日 下午2:31:13 
  *  
  */
-public interface IBrandItemExpressEngine {
+public interface BrandItemExpressEngine {
 
 	/**
 	 * @param requestParam  

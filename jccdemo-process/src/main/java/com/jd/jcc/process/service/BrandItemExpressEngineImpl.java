@@ -23,9 +23,9 @@ import com.jd.jcc.process.nodedefine.BranchExpression;
  * @date 2016年4月5日 下午2:36:16 
  *  
  */
-public class BrandItemExpressEngineImpl implements IBrandItemExpressEngine {
+public class BrandItemExpressEngineImpl implements BrandItemExpressEngine {
 
-	private IBrandItemValueParse brandItemValueParse;
+	private BrandItemValueParse brandItemValueParse = new BrandItemValueParseImpl();
 	
 	public boolean excuteExpress(BranchExpression branchExpression,Object requestParam) {
 		ExpressionAssemblyResult express = BrandExpressUtils.assemblyBranchExpress(branchExpression);

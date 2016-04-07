@@ -87,11 +87,11 @@ public class BrandExpressUtils {
 		if(StringUtils.isBlank(expright)){
 			expright = null;
 		}else{
-			VariableType valueRight = new VariableType(classType);
+			VariableType valueRight = new VariableType(classType,VariableType.RIGHT);
 			valueRight.setValue(expright);
 			codeValues.put(expright, valueRight);
 		}
-		VariableType valueLeft = new VariableType(classType);
+		VariableType valueLeft = new VariableType(classType,VariableType.RIGHT);
 		valueLeft.setValue(expleft);
 		codeValues.put(expleft, valueLeft);
 		

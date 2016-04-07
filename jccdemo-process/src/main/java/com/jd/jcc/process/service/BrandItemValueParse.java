@@ -19,6 +19,6 @@ import com.jcc.demo.expression.VariableType;
  * @date 2016年4月1日 下午5:21:03 
  *  
  */
-public interface IBrandItemValueParse {
+public interface BrandItemValueParse {
 	public Map<String, VariableType> parseVariableValue(Map<String, VariableType> codeValues, Object requestParam);
 }

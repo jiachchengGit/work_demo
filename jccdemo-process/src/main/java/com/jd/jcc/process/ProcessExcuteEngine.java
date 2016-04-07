@@ -32,8 +32,8 @@ import com.jd.jcc.process.nodedefine.BusinessProNode;
 import com.jd.jcc.process.nodedefine.ParallelProNode;
 import com.jd.jcc.process.nodedefine.StartProNode;
 import com.jd.jcc.process.nodedefine.SubProNode;
-import com.jd.jcc.process.service.IBrandItemExpressEngine;
-import com.jd.jcc.process.service.IBusinessNodeService;
+import com.jd.jcc.process.service.BrandItemExpressEngine;
+import com.jd.jcc.process.service.BusinessNodeService;
 import com.jd.jcc.process.service.IProcessNodeService;
 
 /** 
@@ -45,11 +45,12 @@ import com.jd.jcc.process.service.IProcessNodeService;
  */
 public class ProcessExcuteEngine {
 	private Logger log  = LoggerFactory.getLogger(ProcessExcuteEngine.class);
-	private IBrandItemExpressEngine brandItemExpressEngine;
-	private IBusinessNodeService businessNodeService;
+	private BrandItemExpressEngine brandItemExpressEngine;
+	private BusinessNodeService businessNodeService;
 	private IProcessNodeService processNodeService;
 	
 	public void excuteProcess(String processId,ProParam param){
+		log.info("***开始执行流程*** processId="+processId);
 		ProcessBean proBean = getProcessBean(processId);
 		startExcuteProcess(param, proBean);
 	}
@@ -65,9 +66,11 @@ public class ProcessExcuteEngine {
 	 * @throws 
 	 */
 	private BaseProNode fuckSubProcessNode(BaseProNode node, ProParam param) {
+		log.info("***执行节点BEGINE***,nodeType={},nodeName={}",new String[]{node.getNodeType(),node.getNodeName()});
 		SubProNode sn = (SubProNode)node;
 		ProcessBean proBean = getProcessBean(sn.getSubProcessId());
 		startExcuteProcess(param, proBean);
+		log.info("***执行节点END***,nodeType={},nodeName={}",new String[]{node.getNodeType(),node.getNodeName()});
 		return sn.getNextNode();
 	}
 
@@ -130,7 +133,9 @@ public class ProcessExcuteEngine {
 	 * @throws 
 	 */
 	private BaseProNode fuckAggregationNode(BaseProNode node,ProParam param) {
+		log.info("***执行节点BEGINE***,nodeType={},nodeName={}",new String[]{node.getNodeType(),node.getNodeName()});
 		AggregationProNode an = (AggregationProNode)node;
+		log.info("***执行节点END***,nodeType={},nodeName={}",new String[]{node.getNodeType(),node.getNodeName()});
 		return an;
 	}
 
@@ -164,6 +169,7 @@ public class ProcessExcuteEngine {
 	 * @throws 
 	 */
 	private BaseProNode fuckParallelNode(BaseProNode node,ProParam param) {
+		log.info("***执行节点BEGINE***,nodeType={},nodeName={}",new String[]{node.getNodeType(),node.getNodeName()});
 		ParallelProNode ppn = (ParallelProNode)node;
 		List<BaseProNode> nextNodes = ppn.getNextNodes();
 		List<ParallelTask> tasks = new ArrayList<ParallelTask>();
@@ -178,7 +184,7 @@ public class ProcessExcuteEngine {
 		List<BaseProNode> taskResults = ExcutorThreadPool.getPool().excuteTask(tasks, "Parallel-node-task-"+node.getNodeName());
 		AggregationProNode aggregationNode = (AggregationProNode)taskResults.get(0);
 		doAggregationWork(aggregationNode, param,parallelResult);
-
+		log.info("***执行节点END***,nodeType={},nodeName={}",new String[]{node.getNodeType(),node.getNodeName()});
 		//聚合节点的下个节点是一样的
 		return aggregationNode.getNextNode();
 	}
@@ -207,6 +213,7 @@ public class ProcessExcuteEngine {
 	 * @throws 
 	 */
 	private BaseProNode fuckBranchNode(BaseProNode node, ProParam param) {
+		log.info("***执行节点BEGINE***,nodeType={},nodeName={}",new String[]{node.getNodeType(),node.getNodeName()});
 		BranchProNode bn = (BranchProNode)node;
 		String nextNodeKey=doBrandExpress(bn,param);
 		for(BaseProNode n: bn.getNextNodes()){
@@ -214,6 +221,7 @@ public class ProcessExcuteEngine {
 				return n;
 			}
 		}
+		log.info("***执行节点END***,nodeType={},nodeName={}",new String[]{node.getNodeType(),node.getNodeName()});
 		return null;
 	}
 
@@ -248,11 +256,13 @@ public class ProcessExcuteEngine {
 	 * @throws 
 	 */
 	private BaseProNode fuckBusinessNode(BaseProNode node, ProParam param) {
+		log.info("***执行节点BEGINE***,nodeType={},nodeName={}",new String[]{node.getNodeType(),node.getNodeName()});
 		//执行业务逻辑
 		BusinessProNode bn = (BusinessProNode)node;
 		ProResult pr = doBusinessWork(bn,param);
 		param.setResult(pr);
 		//执行下个节点
+		log.info("***执行节点END***,nodeType={},nodeName={}",new String[]{node.getNodeType(),node.getNodeName()});
 		return  bn.getNextNode();
 	}
 
@@ -286,7 +296,9 @@ public class ProcessExcuteEngine {
 	 * @throws 
 	 */
 	private BaseProNode fuckEndNode(BaseProNode node,ProParam param) {
+		log.info("***执行节点BEGINE***,nodeType={},nodeName={}",new String[]{node.getNodeType(),node.getNodeName()});
 		log.info(">>[流程执行结束]<<--processId="+node.getProcessId());
+		log.info("***执行节点END***,nodeType={},nodeName={}",new String[]{node.getNodeType(),node.getNodeName()});
 		return null;
 	}
 
@@ -301,8 +313,10 @@ public class ProcessExcuteEngine {
 	 * @throws 
 	 */
 	private BaseProNode fuckStartNode(BaseProNode node,ProParam param) {
+		log.info("***执行节点BEGINE***,nodeType={},nodeName={}",new String[]{node.getNodeType(),node.getNodeName()});
 		StartProNode sn = (StartProNode)node;
 		BaseProNode nextNode = sn.getNextNode();
+		log.info("***执行节点END***,nodeType={},nodeName={}",new String[]{node.getNodeType(),node.getNodeName()});
 		return nextNode;
 	}
 
@@ -316,6 +330,9 @@ public class ProcessExcuteEngine {
 	 */
 	private ProcessBean getProcessBean(String processId) {
 		ProcessBean pb = processNodeService.queryProcessBeanById(processId);
+		if(pb == null){
+			log.error("***获取流程实例为空***，processId"+processId);
+		}
 		return pb;
 	}
 }
