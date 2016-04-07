@@ -84,7 +84,7 @@ public class BrandExpressUtils {
 		String symbol = item.getSymbol();
 		String connector = item.getConnector();
 		StringBuffer exp = new StringBuffer();
-		Class<?> classType = getValueClassType(symbol);
+		Class<?> classType = getValueClassTypeBySymbol(symbol);
 		if(StringUtils.isBlank(expright)){
 			expright = null;
 		}else{
@@ -115,6 +115,15 @@ public class BrandExpressUtils {
 		return exp.toString();
 	}
 
+	private static Class<?> getValueClassTypeBySymbol(String symbol) {
+		if(StringUtils.isNotBlank(symbol)){
+			symbol = symbol.trim();
+			if(symbol.equals(">")||symbol.equals(">=")||symbol.equals("<")||symbol.equals("<="))
+				return Double.class;
+		}
+		return String.class;
+	}
+	
 	/** 
 	 * @Description: TODO(这里用一句话描述这个方法的作用) 
 	 * @Author chenjiacheng
@@ -126,12 +135,10 @@ public class BrandExpressUtils {
 	private static Class<?> getValueClassType(String symbol) {
 		if(StringUtils.isNotBlank(symbol)){
 			symbol = symbol.trim();
-			if(symbol.equals(">")||symbol.equals(">=")||symbol.equals("<")||symbol.equals("<="))
-//			String DIGITAL_REGEX="(^\\d+\\.{0,1}\\d+$)";
-//			if(Pattern.compile(DIGITAL_REGEX).matcher(expright).find()){
-//				return Double.class;
-//			}
+			String DIGITAL_REGEX="(^\\d+\\.{0,1}\\d+$)";
+			if(Pattern.compile(DIGITAL_REGEX).matcher(symbol).find()){
 				return Double.class;
+			}
 		}
 		return String.class;
 	}
