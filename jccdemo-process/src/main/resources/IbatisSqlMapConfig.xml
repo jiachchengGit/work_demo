@@ -6,16 +6,35 @@
 	<!-- 引用JDBC属性的配置文件 -->
 	<properties resource ="jdbc.properties" />
 	
-	<settings useStatementNamespaces="true"/>
+	  <!--是否启用缓存机制-->  
+	  <!-- 是否启用延迟加载机制 -->  
+	  <!-- 是否启用字节码增强机制 -->  
+	  <!-- 是否启用错误处理机制 -->
+	  <!-- 最大并发请求数 -->  
+	  <!-- 最大Session数 -->  
+	  <!-- 最大并发事务数 -->
+	  <!-- 是否启用名称空间 -->
+	<settings  cacheModelsEnabled ="true"
+               lazyLoadingEnabled="true" 
+               enhancementEnabled="true"
+ 			   errorTracingEnabled="true"  
+			   maxRequests="32" 
+			   maxSessions="10" 
+			   maxTransactions="5" 
+			   useStatementNamespaces="true"/>
 	
 	<!-- 使用JDBC的事务管理 -->
-	<transactionManager type = "JDBC">
+	<transactionManager type = "JDBC"> <!-- 定义了ibatis的事务管理器有3中（JDBC,JTA,EXTERNAL） -->
 		<!-- 数据源 -->
-		<dataSource type = "SIMPLE">
+		<dataSource type = "SIMPLE"> <!-- type属性指定了数据源的链接类型，也有3种类型(SIMPLE,DBCP,JNDI) -->
 			<property name = "JDBC.Driver" value="${driver}" />
 			<property name = "JDBC.ConnectionURL" value="${url}" />
 			<property name = "JDBC.Username" value="${username}" />
 			<property name = "JDBC.Password" value="${password}" />
+  	        <property  name ="Pool.MaximumActiveConnections"  value ="10"/>   <!-- 连接池维持的最大容量 -->  
+            <property  name ="Pool.MaximumIdleConnections"  value ="5"/>      <!-- 连接池允许挂起的最大连接 -->  
+            <property  name ="Pool.MaximumCheckoutTime"  value ="120000"/>    <!-- 连接被某个任务所允许占用的最大时间 -->  
+            <property  name ="TimeToWait"  value ="500" />                    <!-- 线程允许等待的最大时间 -->  
 		</dataSource>
 	</transactionManager>
 	

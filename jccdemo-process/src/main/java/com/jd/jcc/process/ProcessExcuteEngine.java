@@ -219,6 +219,7 @@ public class ProcessExcuteEngine {
 		log.info("***执行节点BEGINE***,nodeType={},nodeName={}",new String[]{node.getNodeType(),node.getNodeName()});
 		BranchProNode bn = (BranchProNode)node;
 		String nextNodeKey=doBrandExpress(bn,param);
+		log.info("***[分支节点命中]***nextNodeKey="+nextNodeKey);
 		for(BaseProNode n: bn.getNextNodes()){
 			if(nextNodeKey.equals(n.getNodeKey())){
 				return n;
