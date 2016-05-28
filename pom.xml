@@ -18,6 +18,24 @@
 	</modules>
 
 	<dependencies>
+		<!-- http://mvnrepository.com/artifact/org.apache.shiro/shiro-web -->
+		<dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-web</artifactId>
+			<version>1.2.4</version>
+		</dependency>
+		<!-- http://mvnrepository.com/artifact/org.apache.shiro/shiro-spring -->
+		<dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-spring</artifactId>
+			<version>1.2.4</version>
+		</dependency>
+		<!-- http://mvnrepository.com/artifact/org.apache.shiro/shiro-core -->
+		<dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-core</artifactId>
+			<version>1.2.4</version>
+		</dependency>
 		<dependency>
 			<groupId>org.msgpack</groupId>
 			<artifactId>msgpack</artifactId>
@@ -59,11 +77,11 @@
 			<artifactId>activemq-client</artifactId>
 			<version>5.10.0</version>
 		</dependency>
-		<dependency>
-			<groupId>javax.jms</groupId>
-			<artifactId>jms</artifactId>
-			<version>1.1</version>
-		</dependency>
+		<!-- <dependency> -->
+		<!-- <groupId>javax.jms</groupId> -->
+		<!-- <artifactId>jms</artifactId> -->
+		<!-- <version>1.1</version> -->
+		<!-- </dependency> -->
 		<dependency>
 			<groupId>com.sun</groupId>
 			<artifactId>tools</artifactId>
@@ -114,11 +132,11 @@
 			<artifactId>ognl</artifactId>
 			<version>2.6.11</version>
 		</dependency>
-		<dependency>
-			<groupId>ik-expression</groupId>
-			<artifactId>ik-expression</artifactId>
-			<version>2.1.2</version>
-		</dependency>
+		<!-- <dependency> -->
+		<!-- <groupId>ik-expression</groupId> -->
+		<!-- <artifactId>ik-expression</artifactId> -->
+		<!-- <version>2.1.2</version> -->
+		<!-- </dependency> -->
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
