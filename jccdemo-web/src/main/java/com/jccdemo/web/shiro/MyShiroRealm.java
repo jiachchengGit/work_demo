@@ -33,7 +33,7 @@ public class MyShiroRealm extends AuthorizingRealm {
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection pc) {
 		String name = getName();
 		String userName = (String) pc.fromRealm(name).iterator().next();
-		log.info("[授权信息：user={},passwd={}]",new String[]{userName});
+		log.info("[授权信息：user={}]",new String[]{userName});
 		SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
 		info.addRole("jcc");
 		info.addStringPermission("/testurl.do");//对用户授权，可与自定义的授权过滤器配合使用，如：URLPermissionsFilter.java

@@ -43,7 +43,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 <!-- 				/user/add=roles[manager] -->
 <!-- 				/user/del/**=roles[admin] -->
 <!-- 				/user/edit/**=roles[manager] -->
-             
+             	/=anon
 				/doLogin.do=anon
 				/login.do=anon
 				<!--所有的请求(除去配置的静态资源请求或请求地址为anon的请求)都要通过登录验证,如果未登录则跳到/login -->

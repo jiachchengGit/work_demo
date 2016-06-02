@@ -19,7 +19,9 @@
 	<bean	class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />
 	
 	<!-- 对转向页面的路径解析。prefix：前缀， suffix：后缀 -->
-	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"
-		p:prefix="/WEB-INF/" 
-		p:suffix=".jsp" />
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="suffix" value=".html"/>
+		<property name="prefix" value="/WEB-INF/"/>
+		<property name="contentType" value="text/html;charset=UTF-8" />
+	</bean>
 </beans>
