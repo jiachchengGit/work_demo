@@ -9,8 +9,16 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
 	<import resource="spring-service.xml" />
+	<import resource="spring-jdbc.xml" />
 	<import resource="spring-shiro.xml" />
-	<context:component-scan base-package="com.jccdemo.web.service"></context:component-scan>
-
-
+	
+	<context:component-scan base-package="com.jccdemo.web.service"/>
+	<!-- properties file import -->
+	<bean id= "propertyConfigurer"  class= "org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:jccdemo.properties</value>
+			</list>
+		</property>
+	</bean> 
 </beans>
