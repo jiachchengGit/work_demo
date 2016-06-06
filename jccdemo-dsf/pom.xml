@@ -7,15 +7,20 @@
     <artifactId>jccdemo</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
-  <groupId>com.jcc.demo</groupId>
   <artifactId>jccdemo-dsf</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <name>jccdemo-dsf</name>
-  <url>http://maven.apache.org</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
   <dependencies>
+  	<dependency>
+			<groupId>io.netty</groupId>
+			<artifactId>netty-all</artifactId> <!-- Use 'netty-all' for 4.0 or above -->
+		</dependency>
+		<dependency>
+			<groupId>org.msgpack</groupId>
+			<artifactId>msgpack</artifactId>
+			<version>0.6.7</version>
+		</dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
