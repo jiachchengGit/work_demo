@@ -16,6 +16,7 @@
 		<module>jccdemo-process</module>
 		<module>jccdemo-dao</module>
 		<module>jccdemo-web</module>
+		<module>jccdemo-dsf</module>
 	</modules>
 	<properties>
 		<shiro-version>1.2.4</shiro-version>
@@ -36,6 +37,11 @@
 		<dependency>
 			<groupId>io.netty</groupId>
 			<artifactId>netty-all</artifactId> <!-- Use 'netty-all' for 4.0 or above -->
+		</dependency>
+		<dependency>
+			<groupId>org.msgpack</groupId>
+			<artifactId>msgpack</artifactId>
+			<!-- <version>${msgpack.version}</version> -->
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>

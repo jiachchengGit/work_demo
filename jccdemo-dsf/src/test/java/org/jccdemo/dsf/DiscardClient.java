@@ -6,7 +6,7 @@
 * @date 2016年6月2日 下午3:25:15 
 * @version V1.0   
 */
-package com.jd.jcc.server.netty;
+package org.jccdemo.dsf;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
@@ -47,7 +47,8 @@ public class DiscardClient {
 	            b.handler(new ChannelInitializer<SocketChannel>() {
 	                @Override
 	                public void initChannel(SocketChannel ch) throws Exception {
-	                    ch.pipeline().addLast(new DiscardClientHandler(),new DiscardClientHandler2());
+	                    ch.pipeline().addLast("1",new DiscardClientHandler());
+	                    ch.pipeline().addLast("2",new DiscardClientHandler2());
 	                }
 	            });
 

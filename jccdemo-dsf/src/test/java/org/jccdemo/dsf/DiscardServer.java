@@ -6,7 +6,7 @@
 * @date 2016年6月2日 下午2:44:17 
 * @version V1.0   
 */
-package com.jd.jcc.server.netty;
+package org.jccdemo.dsf;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
