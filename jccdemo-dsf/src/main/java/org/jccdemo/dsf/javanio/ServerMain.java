@@ -10,11 +10,15 @@ package org.jccdemo.dsf.javanio;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.nio.ByteBuffer;
+import java.nio.channels.SelectableChannel;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.util.Iterator;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /** 
  * @ClassName: ServerMain 
@@ -34,14 +38,13 @@ public class ServerMain {
 	 * @throws 
 	 */
 	public static void main(String[] args) throws IOException {
-		// TODO Auto-generated method stub
 		Selector selector = Selector.open();
 		ServerSocketChannel ssc = ServerSocketChannel.open();
 		ssc.configureBlocking(false);
 		ssc.socket().bind(new InetSocketAddress(8088));
-		ssc.register(selector, SelectionKey.OP_ACCEPT);
-		
+		ssc.register(selector, SelectionKey.OP_ACCEPT);		
 		System.out.println("---Start server---");
+		ExecutorService pool = Executors.newFixedThreadPool(10);
 		while(true){
 			selector.select();
 			Iterator<SelectionKey> iterator = selector.selectedKeys().iterator();
@@ -51,20 +54,38 @@ public class ServerMain {
 				if(next.isAcceptable()){
 					SocketChannel accept = ssc.accept();
 					accept.configureBlocking(false);
-					SelectionKey key = accept.register(selector, SelectionKey.OP_READ);
-					key.attach(new SocketHandler(key));
+					accept.register(selector, SelectionKey.OP_READ);
 				}
-				if(next.isReadable()){
-					SocketHandler sh = (SocketHandler)next.attachment();
-					sh.handerRead();
-				}
-				
-				if(next.isValid() && next.isWritable()){
-					SocketHandler sh = (SocketHandler)next.attachment();
-					sh.handerWrite("this is server respone for");
-				}
+				pool.submit(new ServerTask(next));
 			}
 		}
 	}
-
+}
+class ServerTask implements Runnable{
+	private SelectionKey next;
+	private Selector selector;
+	public ServerTask(SelectionKey next){
+		this.next = next;
+		this.selector=next.selector();
+	}
+	
+	public void run() {
+		try {
+			if(next.isReadable()){
+				SocketChannel channel = (SocketChannel)next.channel();
+				ByteBuffer buf = ByteBuffer.allocate(1024);
+				channel.read(buf);
+				System.out.println(channel.hashCode()+",read msg from client ="+new String(buf.array()));
+				channel.register(selector, SelectionKey.OP_WRITE);
+			}
+			if(next.isWritable()){
+				SocketChannel channel = (SocketChannel)next.channel();
+				byte[] src = (channel.hashCode()+", server respone to client").getBytes();
+				channel.write(ByteBuffer.wrap(src));
+				channel.register(selector, SelectionKey.OP_READ);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }
