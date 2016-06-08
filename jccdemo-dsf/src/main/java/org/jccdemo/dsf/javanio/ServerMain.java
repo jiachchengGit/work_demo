@@ -76,13 +76,14 @@ class ServerTask implements Runnable{
 				ByteBuffer buf = ByteBuffer.allocate(1024);
 				channel.read(buf);
 				System.out.println(channel.hashCode()+",read msg from client ="+new String(buf.array()));
-				channel.register(selector, SelectionKey.OP_WRITE);
+				channel.register(selector, SelectionKey.OP_WRITE|SelectionKey.OP_WRITE);
+				buf.clear();
 			}
 			if(next.isWritable()){
 				SocketChannel channel = (SocketChannel)next.channel();
+				channel.register(selector, SelectionKey.OP_READ|SelectionKey.OP_WRITE);
 				byte[] src = (channel.hashCode()+", server respone to client").getBytes();
 				channel.write(ByteBuffer.wrap(src));
-				channel.register(selector, SelectionKey.OP_READ);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
