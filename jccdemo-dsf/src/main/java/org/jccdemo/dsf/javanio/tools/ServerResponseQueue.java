@@ -6,10 +6,12 @@
 * @date 2016年6月8日 上午9:25:07 
 * @version V1.0   
 */
-package org.jccdemo.dsf.javanio;
+package org.jccdemo.dsf.javanio.tools;
 
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+
+import org.jccdemo.dsf.javanio.model.ResponseMsg;
 
 /** 
  * @ClassName: NIOQueue 
@@ -18,15 +20,15 @@ import java.util.concurrent.BlockingQueue;
  * @date 2016年6月8日 上午9:25:07 
  *  
  */
-public class NIOQueue {
+public class ServerResponseQueue {
 	
-	private static BlockingQueue<String> queue = new ArrayBlockingQueue<String>(10240);
+	private static BlockingQueue<ResponseMsg> queue = new ArrayBlockingQueue<ResponseMsg>(10240);
 	
-	public static String getEle() throws Exception{
-		return queue.take();
+	public static ResponseMsg getEle() throws Exception{
+		return queue.poll();
 	}
 	
-	public static void putEle(String ele){
+	public static void putEle(ResponseMsg ele){
 		queue.offer(ele);
 	}
 	
