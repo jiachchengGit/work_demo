@@ -49,7 +49,7 @@ public class JDKObjCodecUtil {
 		for(int i=0;i<bLen;i++){
 			bb.put(bodyBytes[i]);
 		}
-		bb.flip();
+		bb.flip();//记得由写模式变为读模式，否则读不到数据
 		return bb;
 	}
 	
@@ -67,7 +67,7 @@ public class JDKObjCodecUtil {
 		for(int i=0;i<bLen;i++){
 			bb.put(bodyBytes[i]);
 		}
-		bb.flip();
+		bb.flip();//记得由写模式变为读模式，否则读不到数据
 		return bb;
 	}
 	
