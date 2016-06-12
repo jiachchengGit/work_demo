@@ -96,6 +96,7 @@ public class JavaNioClient {
 		    readChannel2.close();  
 		} else {  
 			try {
+				bufHeader.flip();
 				MsgHeader header = JDKObjCodecUtil.deserizable(bufHeader.array(), MsgHeader.class);
 				int length = header.getLength();
 				ByteBuffer bufBody = ByteBuffer.allocate(length);

@@ -44,6 +44,7 @@ public class JDKObjCodecUtil {
 		request.getHearder().setLength(bLen);		
 		byte[] headerBytes = serializable(request.getHearder());
 		int hLen = headerBytes.length;
+		System.out.println("header length="+hLen);
 		ByteBuffer bb = ByteBuffer.allocate(bLen+hLen);
 		bb.put(headerBytes);
 		for(int i=0;i<bLen;i++){
