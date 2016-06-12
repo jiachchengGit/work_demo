@@ -1,20 +1,20 @@
 /**   
-* @Title: RequestMessage.java 
+* @Title: BaseMessage.java 
 * @Package org.jccdemo.dsf.model 
 * @Description: TODO(用一句话描述该文件做什么) 
 * @author chenjiacheng   
-* @date 2016年6月7日 上午11:15:52 
+* @date 2016年6月12日 上午10:38:46 
 * @version V1.0   
 */
 package org.jccdemo.dsf.model;
 
 /** 
- * @ClassName: RequestMessage 
+ * @ClassName: BaseMessage 
  * @Description: TODO(这里用一句话描述这个类的作用) 
  * @author chenjiacheng
- * @date 2016年6月7日 上午11:15:52 
+ * @date 2016年6月12日 上午10:38:46 
  *  
  */
-public class RequestMessage extends BaseMessage{
-	private MethodInvocation invocation;
+public class BaseMessage {
+
 }

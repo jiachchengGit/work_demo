@@ -18,7 +18,7 @@ import java.nio.channels.SocketChannel;
 import java.util.Iterator;
 import java.util.Set;
 
-import org.jccdemo.dsf.DsfConst;
+import org.jccdemo.dsf.common.DsfConst;
 import org.jccdemo.dsf.javanio.model.MsgBody;
 import org.jccdemo.dsf.javanio.model.MsgHeader;
 import org.jccdemo.dsf.javanio.model.RequestMsg;

@@ -8,9 +8,8 @@
 */
 package org.jccdemo.dsf.base;
 
+import org.jccdemo.dsf.model.RequestMessage;
 import org.jccdemo.dsf.model.ResponseMessage;
-
-import com.sun.corba.se.impl.protocol.giopmsgheaders.RequestMessage;
 
 /** 
  * @ClassName: MethodInvoker 

@@ -19,7 +19,7 @@ import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.util.Iterator;
 
-import org.jccdemo.dsf.DsfConst;
+import org.jccdemo.dsf.common.DsfConst;
 import org.jccdemo.dsf.javanio.model.HeartBeat;
 import org.jccdemo.dsf.javanio.model.MsgBody;
 import org.jccdemo.dsf.javanio.model.MsgHeader;
