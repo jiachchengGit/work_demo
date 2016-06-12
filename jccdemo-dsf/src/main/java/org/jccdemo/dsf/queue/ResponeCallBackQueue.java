@@ -1,12 +1,12 @@
-package org.jccdemo.dsf.javanio.tools;
+package org.jccdemo.dsf.queue;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
-import org.jccdemo.dsf.javanio.model.ResponseMsg;
+import org.jccdemo.dsf.model.ResponseMsg;
 
-public class ResponeCallBack {
+public class ResponeCallBackQueue {
 	private BlockingQueue<ResponseMsg> queue = new LinkedBlockingQueue<ResponseMsg>(1);
 	public void put(ResponseMsg response){
 		queue.offer(response);

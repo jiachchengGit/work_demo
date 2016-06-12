@@ -6,7 +6,7 @@
  * @date 2016年6月7日 下午4:01:57 
  * @version V1.0   
  */
-package org.jccdemo.dsf.javanio.server;
+package org.jccdemo.dsf.javanio;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -20,13 +20,13 @@ import java.nio.channels.SocketChannel;
 import java.util.Iterator;
 
 import org.jccdemo.dsf.common.DsfConst;
-import org.jccdemo.dsf.javanio.model.HeartBeat;
-import org.jccdemo.dsf.javanio.model.MsgBody;
-import org.jccdemo.dsf.javanio.model.MsgHeader;
-import org.jccdemo.dsf.javanio.model.RequestMsg;
-import org.jccdemo.dsf.javanio.model.ResponseMsg;
-import org.jccdemo.dsf.javanio.tools.JDKObjCodecUtil;
-import org.jccdemo.dsf.javanio.tools.ServerResponseQueue;
+import org.jccdemo.dsf.model.HeartBeat;
+import org.jccdemo.dsf.model.MsgBody;
+import org.jccdemo.dsf.model.MsgHeader;
+import org.jccdemo.dsf.model.RequestMsg;
+import org.jccdemo.dsf.model.ResponseMsg;
+import org.jccdemo.dsf.queue.ServerResponseQueue;
+import org.jccdemo.dsf.utils.JDKObjCodecUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,16 +37,9 @@ import org.slf4j.LoggerFactory;
  * @date 2016年6月7日 下午4:01:57
  * 
  */
-public class ServerMain {
-	private static Logger log = LoggerFactory.getLogger(ServerMain.class);
+public class JavaNioServer {
+	private Logger log = LoggerFactory.getLogger(JavaNioServer.class);
 
-	public static void main(String[] args){
-		try {
-			start();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
 	/**
 	 * @throws IOException
 	 * @Description: TODO(这里用一句话描述这个方法的作用)
@@ -55,7 +48,7 @@ public class ServerMain {
 	 * @param args
 	 * @throws
 	 */
-	public static void start() throws IOException {
+	public void start() throws IOException {
 		Selector selector = Selector.open();
 		ServerSocketChannel server = ServerSocketChannel.open();
 		server.configureBlocking(false);
@@ -94,7 +87,7 @@ public class ServerMain {
 			}
 		}
 	}
-	private static void doWrite(Selector selector, SelectionKey key)
+	private void doWrite(Selector selector, SelectionKey key)
 			throws ClosedChannelException {
 		SocketChannel writeChannel = (SocketChannel) key.channel();
 		writeChannel.register(selector,SelectionKey.OP_WRITE|SelectionKey.OP_READ);
@@ -107,7 +100,7 @@ public class ServerMain {
 			log.error("", e);
 		}
 	}
-	private static void doRead(Selector selector, SelectionKey key)
+	private  void doRead(Selector selector, SelectionKey key)
 			throws ClosedChannelException, IOException {
 		SocketChannel readChannel = (SocketChannel) key.channel();
 		readChannel.register(selector, SelectionKey.OP_READ | SelectionKey.OP_WRITE);
@@ -134,7 +127,7 @@ public class ServerMain {
 		}
 	}
 
-	private static void handlerRequest(RequestMsg request) {
+	private  void handlerRequest(RequestMsg request) {
 		log.info("server recieve msg body="	+ request.getBody().getMsg().toString());
 		ResponseMsg response = new ResponseMsg();
 		response.setHearder(request.getHearder());
@@ -142,7 +135,7 @@ public class ServerMain {
 		ServerResponseQueue.putEle(response);
 	}
 
-	private static MsgBody createMsgBody() {
+	private  MsgBody createMsgBody() {
 		HeartBeat hb = new HeartBeat();
 		hb.setContent("server response to heart beat !");
 		try {

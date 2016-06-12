@@ -1,4 +1,4 @@
-package org.jccdemo.dsf.javanio.tools;
+package org.jccdemo.dsf.utils;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -8,11 +8,11 @@ import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.nio.ByteBuffer;
 
-import org.jccdemo.dsf.javanio.model.HeartBeat;
-import org.jccdemo.dsf.javanio.model.MsgBody;
-import org.jccdemo.dsf.javanio.model.MsgHeader;
-import org.jccdemo.dsf.javanio.model.RequestMsg;
-import org.jccdemo.dsf.javanio.model.ResponseMsg;
+import org.jccdemo.dsf.model.HeartBeat;
+import org.jccdemo.dsf.model.MsgBody;
+import org.jccdemo.dsf.model.MsgHeader;
+import org.jccdemo.dsf.model.RequestMsg;
+import org.jccdemo.dsf.model.ResponseMsg;
 
 public class JDKObjCodecUtil {
 	

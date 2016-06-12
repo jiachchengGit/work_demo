@@ -6,7 +6,7 @@
  * @date 2016年6月7日 下午4:01:48 
  * @version V1.0   
  */
-package org.jccdemo.dsf.javanio.client;
+package org.jccdemo.dsf.javanio;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -19,13 +19,12 @@ import java.util.Iterator;
 import java.util.Set;
 
 import org.jccdemo.dsf.common.DsfConst;
-import org.jccdemo.dsf.javanio.model.MsgBody;
-import org.jccdemo.dsf.javanio.model.MsgHeader;
-import org.jccdemo.dsf.javanio.model.RequestMsg;
-import org.jccdemo.dsf.javanio.model.ResponseMsg;
-import org.jccdemo.dsf.javanio.tools.JDKObjCodecUtil;
-import org.jccdemo.dsf.javanio.tools.ClientRequstQueue;
-import org.jccdemo.dsf.javanio.tools.TestMsgProducer;
+import org.jccdemo.dsf.model.MsgBody;
+import org.jccdemo.dsf.model.MsgHeader;
+import org.jccdemo.dsf.model.RequestMsg;
+import org.jccdemo.dsf.model.ResponseMsg;
+import org.jccdemo.dsf.queue.ClientRequstQueue;
+import org.jccdemo.dsf.utils.JDKObjCodecUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,16 +35,9 @@ import org.slf4j.LoggerFactory;
  * @date 2016年6月7日 下午4:01:48
  * 
  */
-public class ClientMain {
-	private static Logger log = LoggerFactory.getLogger(ClientMain.class);
+public class JavaNioClient {
+	private Logger log = LoggerFactory.getLogger(JavaNioClient.class);
 	
-	public static void main(String[] args){
-		try {
-			start();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
 	/**
 	 * @throws IOException 
 	 * @Description: TODO(这里用一句话描述这个方法的作用)
@@ -54,10 +46,7 @@ public class ClientMain {
 	 * @param args
 	 * @throws
 	 */
-	public static void start() throws IOException {
-		
-		TestMsgProducer.produce();
-		
+	public void start() throws IOException {
 		Selector selector = Selector.open();
 		SocketChannel readChannel = SocketChannel.open();
 		readChannel.configureBlocking(false);
@@ -98,7 +87,7 @@ public class ClientMain {
 			}
 		}
 	}
-	private static void doRead(SelectionKey key) throws IOException,
+	private  void doRead(SelectionKey key) throws IOException,
 			ClosedChannelException {
 		SocketChannel readChannel2 = (SocketChannel)key.channel();
 		ByteBuffer bufHeader = ByteBuffer.allocate(DsfConst.MSG_HEADER_LENGTH);

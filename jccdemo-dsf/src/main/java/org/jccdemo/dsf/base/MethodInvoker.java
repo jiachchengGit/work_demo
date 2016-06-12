@@ -8,8 +8,9 @@
 */
 package org.jccdemo.dsf.base;
 
-import org.jccdemo.dsf.model.RequestMessage;
-import org.jccdemo.dsf.model.ResponseMessage;
+import org.jccdemo.dsf.model.RequestMsg;
+import org.jccdemo.dsf.model.ResponseMsg;
+
 
 /** 
  * @ClassName: MethodInvoker 
@@ -19,5 +20,5 @@ import org.jccdemo.dsf.model.ResponseMessage;
  *  
  */
 public interface MethodInvoker {
-	public ResponseMessage invoke(RequestMessage request);
+	public ResponseMsg invoke(RequestMsg request);
 }

@@ -1,12 +1,12 @@
-package org.jccdemo.dsf.javanio;
+package org.jccdemo.dsf.service;
 
-import org.jccdemo.dsf.javanio.model.BaseMsg;
-import org.jccdemo.dsf.javanio.model.MsgBody;
-import org.jccdemo.dsf.javanio.model.MsgHeader;
-import org.jccdemo.dsf.javanio.model.RequestMsg;
-import org.jccdemo.dsf.javanio.model.ResponseMsg;
-import org.jccdemo.dsf.javanio.tools.ClientRequstQueue;
-import org.jccdemo.dsf.javanio.tools.ResponeCallBack;
+import org.jccdemo.dsf.model.BaseMsg;
+import org.jccdemo.dsf.model.MsgBody;
+import org.jccdemo.dsf.model.MsgHeader;
+import org.jccdemo.dsf.model.RequestMsg;
+import org.jccdemo.dsf.model.ResponseMsg;
+import org.jccdemo.dsf.queue.ClientRequstQueue;
+import org.jccdemo.dsf.queue.ResponeCallBackQueue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,7 +15,7 @@ public class MsgServiceImpl implements MsgService {
 	private Logger log = LoggerFactory.getLogger(getClass());
 	
 	public ResponseMsg sendMsg(BaseMsg msg) {
-		ResponeCallBack responseHandler = new ResponeCallBack();
+		ResponeCallBackQueue responseHandler = new ResponeCallBackQueue();
 		RequestMsg request = new RequestMsg();
 		MsgHeader header = new MsgHeader();
 		header.setMsgType(msg.getMsgType());

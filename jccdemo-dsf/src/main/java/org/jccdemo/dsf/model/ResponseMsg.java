@@ -1,4 +1,4 @@
-package org.jccdemo.dsf.javanio.model;
+package org.jccdemo.dsf.model;
 
 import java.io.Serializable;
 

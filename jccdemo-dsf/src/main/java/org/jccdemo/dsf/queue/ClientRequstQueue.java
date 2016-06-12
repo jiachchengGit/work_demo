@@ -6,14 +6,14 @@
 * @date 2016年6月8日 上午9:25:07 
 * @version V1.0   
 */
-package org.jccdemo.dsf.javanio.tools;
+package org.jccdemo.dsf.queue;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import org.jccdemo.dsf.javanio.model.RequestMsg;
+import org.jccdemo.dsf.model.RequestMsg;
 
 /** 
  * @ClassName: NIOQueue 

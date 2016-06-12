@@ -1,8 +1,8 @@
-package org.jccdemo.dsf.javanio.model;
+package org.jccdemo.dsf.model;
 
 import java.io.Serializable;
 
-import org.jccdemo.dsf.javanio.tools.ResponeCallBack;
+import org.jccdemo.dsf.queue.ResponeCallBackQueue;
 
 public class RequestMsg implements Serializable{
 	
@@ -12,12 +12,12 @@ public class RequestMsg implements Serializable{
 	
 	private MsgBody body;
 	
-	private ResponeCallBack responeHanlder;
+	private ResponeCallBackQueue responeHanlder;
 	
-	public ResponeCallBack getResponeHanlder() {
+	public ResponeCallBackQueue getResponeHanlder() {
 		return responeHanlder;
 	}
-	public void setResponeHanlder(ResponeCallBack responeHanlder) {
+	public void setResponeHanlder(ResponeCallBackQueue responeHanlder) {
 		this.responeHanlder = responeHanlder;
 	}
 	public MsgHeader getHearder() {

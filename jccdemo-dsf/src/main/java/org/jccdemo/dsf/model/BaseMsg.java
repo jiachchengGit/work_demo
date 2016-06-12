@@ -1,4 +1,4 @@
-package org.jccdemo.dsf.javanio.model;
+package org.jccdemo.dsf.model;
 
 public abstract class BaseMsg {
 	public static enum MsgType{
