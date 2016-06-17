@@ -43,13 +43,18 @@ public class TestMsgPack {
 		byte[] raw = msgpack.write(bean);
 
 		// Deserialize directly using a template
-		MyBean b = msgpack.read(raw, MyBean.class);
-		System.out.println(b.toString());
+		BaseBean b = msgpack.read(raw, BaseBean.class);
+		System.out.println(((MyBean)b).toString());
 	}
 }
 
 @Message
-class MyBean{
+class BaseBean{
+	
+}
+
+@Message
+class MyBean extends BaseBean{
 	
 	private String name;
 	private List<String> list;
