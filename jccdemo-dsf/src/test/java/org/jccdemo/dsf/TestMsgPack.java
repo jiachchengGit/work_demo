@@ -9,14 +9,11 @@
 package org.jccdemo.dsf;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.msgpack.MessagePack;
 import org.msgpack.annotation.Message;
-import org.msgpack.template.Templates;
-import org.msgpack.type.Value;
-import org.msgpack.unpacker.Converter;
 
 /** 
  * @ClassName: TestMsgPack 
@@ -43,14 +40,38 @@ public class TestMsgPack {
 		byte[] raw = msgpack.write(bean);
 
 		// Deserialize directly using a template
-		BaseBean b = msgpack.read(raw, BaseBean.class);
-		System.out.println(((MyBean)b).toString());
+		Object b = msgpack.read(raw, BaseBean.class);
+		MyBean mb = msgpack.read(raw, MyBean.class);
+		System.out.println(b.toString());
+		System.out.println(mb.toString());
 	}
 }
 
 @Message
 class BaseBean{
-	
+	private String id = UUID.randomUUID().toString();
+
+	/**
+	 * @return the id
+	 */
+	public String getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "BaseBean [id=" + id + "]";
+	}
 }
 
 @Message
@@ -100,7 +121,7 @@ class MyBean extends BaseBean{
 	 */
 	@Override
 	public String toString() {
-		return "MyBean [name=" + name + "]";
+		return "MyBean [name=" + name + ", getId()=" + getId() + "]";
 	}
 }
 

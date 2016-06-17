@@ -16,5 +16,69 @@ package org.jccdemo.dsf.model;
  *  
  */
 public class MethodInvocation {
-
+	private String methodName;
+	private String clazzName;
+	private Class<?>[] paramTypes;
+	private Object[] paramValues;
+	private String versionAlias;
+	/**
+	 * @return the methodName
+	 */
+	public String getMethodName() {
+		return methodName;
+	}
+	/**
+	 * @param methodName the methodName to set
+	 */
+	public void setMethodName(String methodName) {
+		this.methodName = methodName;
+	}
+	/**
+	 * @return the clazzName
+	 */
+	public String getClazzName() {
+		return clazzName;
+	}
+	/**
+	 * @param clazzName the clazzName to set
+	 */
+	public void setClazzName(String clazzName) {
+		this.clazzName = clazzName;
+	}
+	/**
+	 * @return the paramTypes
+	 */
+	public Class<?>[] getParamTypes() {
+		return paramTypes;
+	}
+	/**
+	 * @param paramTypes the paramTypes to set
+	 */
+	public void setParamTypes(Class<?>[] paramTypes) {
+		this.paramTypes = paramTypes;
+	}
+	/**
+	 * @return the paramValues
+	 */
+	public Object[] getParamValues() {
+		return paramValues;
+	}
+	/**
+	 * @param paramValues the paramValues to set
+	 */
+	public void setParamValues(Object[] paramValues) {
+		this.paramValues = paramValues;
+	}
+	/**
+	 * @return the versionAlias
+	 */
+	public String getVersionAlias() {
+		return versionAlias;
+	}
+	/**
+	 * @param versionAlias the versionAlias to set
+	 */
+	public void setVersionAlias(String versionAlias) {
+		this.versionAlias = versionAlias;
+	}
 }
