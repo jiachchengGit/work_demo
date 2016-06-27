@@ -6,9 +6,11 @@
 * @date 2016年6月17日 下午2:23:16 
 * @version V1.0   
 */
-package org.jccdemo.dsf.netty.handler;
+package org.jccdemo.dsf.client.handler;
 
-import org.jccdemo.dsf.model.HeartBeat;
+import org.jccdemo.dsf.model.RequestMsg;
+import org.jccdemo.dsf.model.ResponseMsg;
+import org.jccdemo.dsf.queue.ClientWaitResponseQueue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,15 +24,17 @@ import io.netty.channel.SimpleChannelInboundHandler;
  * @date 2016年6月17日 下午2:23:16 
  *  
  */
-public class DsfNettyServerHandler extends SimpleChannelInboundHandler<HeartBeat> {
+public class DsfNettyClientHandler extends SimpleChannelInboundHandler<ResponseMsg> {
+	
 	private Logger log = LoggerFactory.getLogger(getClass());
+	
 	@Override
-	protected void channelRead0(ChannelHandlerContext ctx, HeartBeat msg)throws Exception {
+	protected void channelRead0(ChannelHandlerContext ctx, ResponseMsg msg)throws Exception {
 		if(msg != null){
-			log.info("server retrieve msg:"+msg.toString());
+			log.info("client retrieve msg from server:"+msg.getBody().getMsg().toString());
+			//put response msg to queue
+			RequestMsg waitRespone = ClientWaitResponseQueue.getWaitRespone(msg.getMsgId());
+			waitRespone.getResponeHanlder().put(msg);
 		}
-		HeartBeat hb = new HeartBeat();
-		hb.setContent("Server response to client msg...");
-		ctx.writeAndFlush(hb);
 	}
 }

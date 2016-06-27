@@ -8,11 +8,13 @@
 */
 package org.jccdemo.dsf.register;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
+import org.jccdemo.dsf.common.DsfConst;
 import org.jccdemo.dsf.config.ServerConfig;
 
 /** 
@@ -24,20 +26,31 @@ import org.jccdemo.dsf.config.ServerConfig;
  */
 public class ServerConfigFactory {
 	
-	private static Map<String,Set<ServerConfig>> servers = new HashMap<String,Set<ServerConfig>>();
-	
-	public void register(ServerConfig sc){
-		String clazzName = sc.getClazzName();
-		Set<ServerConfig> set = servers.get(clazzName);
-		if(set == null){
-			set = new HashSet<ServerConfig>();
-			servers.put(clazzName, set);
+	private static Map<String,ServerConfig> servers = new HashMap<String,ServerConfig>();
+	private static Map<String,Object> instances = new HashMap<String,Object>();
+	public void register(Object serverInstance,String versionAlias){
+		String clazzName = serverInstance.getClass().getCanonicalName();
+		instances.put(clazzName, serverInstance);
+		String key = getKey(clazzName, versionAlias);
+		ServerConfig sc = new ServerConfig();
+		sc.setClazzName(clazzName);
+		try {
+			sc.setIp(InetAddress.getLocalHost().getHostAddress());
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
 		}
-		set.add(sc);
+		sc.setPort(DsfConst.SERVER_PORT);
+		sc.setStatus(DsfConst.ServerStatus.RUN);
+		sc.setVersionAlias(versionAlias);
+		servers.put(key, sc);
 	}
 	
-	public static Set<ServerConfig> getServerConfigs(String clazzName){
-		Set<ServerConfig> ss = servers.get(clazzName);
-		return ss;
+	public static Collection<ServerConfig> getServerConfigs(){
+		Collection<ServerConfig> values = servers.values();
+		return values;
 	}
+	private static String getKey(String clazzName,String versionAlias){
+		return clazzName+"#"+versionAlias;
+	}
+	
 }

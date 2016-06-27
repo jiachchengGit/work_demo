@@ -6,7 +6,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.jccdemo.dsf.model.ResponseMsg;
 
-public class ResponeCallBackQueue {
+public class ClientResponeCallBackQueue {
 	private BlockingQueue<ResponseMsg> queue = new LinkedBlockingQueue<ResponseMsg>(1);
 	public void put(ResponseMsg response){
 		queue.offer(response);

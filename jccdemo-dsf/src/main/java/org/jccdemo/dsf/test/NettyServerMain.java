@@ -8,7 +8,7 @@
 */
 package org.jccdemo.dsf.test;
 
-import org.jccdemo.dsf.netty.DsfNettyServer;
+import org.jccdemo.dsf.server.NettyServerFactory;
 
 /** 
  * @ClassName: NettyClientMain 
@@ -21,8 +21,7 @@ public class NettyServerMain {
 	
 	public static void main(String[] args){
 		
-		DsfNettyServer ds = new DsfNettyServer();
-		ds.start();
+		NettyServerFactory ds = new NettyServerFactory();
 		
 	}
 }

@@ -20,6 +20,20 @@ public class ServerConfig {
 	private String versionAlias;
 	private String ip;
 	private int port;
+	private int status;
+	
+	/**
+	 * @return the status
+	 */
+	public int getStatus() {
+		return status;
+	}
+	/**
+	 * @param status the status to set
+	 */
+	public void setStatus(int status) {
+		this.status = status;
+	}
 	/**
 	 * @return the clazzName
 	 */
@@ -68,48 +82,10 @@ public class ServerConfig {
 	public void setPort(int port) {
 		this.port = port;
 	}
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result
-				+ ((clazzName == null) ? 0 : clazzName.hashCode());
-		result = prime * result + ((ip == null) ? 0 : ip.hashCode());
-		result = prime * result + port;
-		result = prime * result
-				+ ((versionAlias == null) ? 0 : versionAlias.hashCode());
-		return result;
-	}
 	
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		ServerConfig other = (ServerConfig) obj;
-		if (clazzName == null) {
-			if (other.clazzName != null)
-				return false;
-		} else if (!clazzName.equals(other.clazzName))
-			return false;
-		if (ip == null) {
-			if (other.ip != null)
-				return false;
-		} else if (!ip.equals(other.ip))
-			return false;
-		if (port != other.port)
-			return false;
-		if (versionAlias == null) {
-			if (other.versionAlias != null)
-				return false;
-		} else if (!versionAlias.equals(other.versionAlias))
-			return false;
-		return true;
+	public String toString() {
+		return "ServerConfig [clazzName=" + clazzName + ", versionAlias="
+				+ versionAlias + ", ip=" + ip + ", port=" + port + "]";
 	}
 }

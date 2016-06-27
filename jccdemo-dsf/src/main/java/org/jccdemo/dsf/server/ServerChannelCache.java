@@ -6,7 +6,12 @@
 * @date 2016年6月17日 下午4:17:31 
 * @version V1.0   
 */
-package org.jccdemo.dsf.netty;
+package org.jccdemo.dsf.server;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.jccdemo.dsf.config.ServerConfig;
 
 import io.netty.channel.socket.SocketChannel;
 
@@ -17,20 +22,23 @@ import io.netty.channel.socket.SocketChannel;
  * @date 2016年6月17日 下午4:17:31 
  *  
  */
-public class ClientChannelFactory {
-	private static SocketChannel channel;
+public class ServerChannelCache {
+	
+	private static Map<String,SocketChannel> channels = new HashMap<String,SocketChannel>();
 
 	/**
 	 * @return the channel
 	 */
-	public static SocketChannel getChannel() {
-		return channel;
+	public static SocketChannel getChannel(String clazzName) {
+		return channels.get(clazzName);
 	}
 
 	/**
 	 * @param channel the channel to set
+	 * @param sc 
 	 */
-	public static void setChannel(SocketChannel channel) {
-		ClientChannelFactory.channel = channel;
+	public static void setChannel(SocketChannel channel, String clazzName) {
+		channels.put(clazzName, channel);
 	}
+	
 }

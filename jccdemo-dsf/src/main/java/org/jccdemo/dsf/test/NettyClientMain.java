@@ -8,12 +8,12 @@
  */
 package org.jccdemo.dsf.test;
 
-import io.netty.channel.socket.SocketChannel;
-
-import org.jccdemo.dsf.model.HeartBeat;
-import org.jccdemo.dsf.netty.ClientChannelFactory;
-import org.jccdemo.dsf.netty.DsfNettyClient;
-import org.jccdemo.dsf.utils.CreateBeanUtils;
+import org.jccdemo.dsf.client.NettyClientConnect;
+import org.jccdemo.dsf.invoke.SendMsgMethodInvoker;
+import org.jccdemo.dsf.test.bean.HeatReq;
+import org.jccdemo.dsf.test.bean.HeatResp;
+import org.jccdemo.dsf.test.interfaces.HeatBeatService;
+import org.jccdemo.dsf.utils.JDKProxy;
 
 /**
  * @ClassName: NettyClientMain
@@ -24,15 +24,17 @@ import org.jccdemo.dsf.utils.CreateBeanUtils;
  */
 public class NettyClientMain {
 	public static void main(String[] args) throws InterruptedException {
+		TestClientRegisterHook hook = new TestClientRegisterHook();
+		NettyClientConnect.connectServers(hook);		
 		new Thread(new Runnable() {
 			public void run() {
 				while (true) {
 					System.out.println("-----send msg to server ----");
-					SocketChannel channel = ClientChannelFactory.getChannel();
-					if(channel != null){
-						HeartBeat msg = CreateBeanUtils.createClientMsg();
-						channel.writeAndFlush(msg);
-					}
+					HeatBeatService proxy = JDKProxy.getProxy(HeatBeatService.class, new SendMsgMethodInvoker());
+					HeatReq req= new HeatReq();
+					req.setAsk("Hello server ,this is client handshake to you");
+					HeatResp sayHello = proxy.sayHello(req);
+					System.out.println("method call result:"+(sayHello==null?"no response":sayHello.toString()));
 					try {
 						Thread.sleep(2000);
 					} catch (InterruptedException e) {
@@ -43,7 +45,5 @@ public class NettyClientMain {
 			}
 		}).start();
 		
-		DsfNettyClient dc = new DsfNettyClient();
-		dc.start();
 	}
 }

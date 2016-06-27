@@ -6,9 +6,11 @@
 * @date 2016年6月17日 下午2:06:00 
 * @version V1.0   
 */
-package org.jccdemo.dsf.netty.handler;
+package org.jccdemo.dsf.client.handler;
 
-import org.jccdemo.dsf.netty.ClientChannelFactory;
+import org.jccdemo.dsf.client.ClientChannelCache;
+import org.jccdemo.dsf.common.DsfConst;
+import org.jccdemo.dsf.config.ServerConfig;
 
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.socket.SocketChannel;
@@ -24,12 +26,24 @@ import io.netty.handler.codec.serialization.ObjectEncoder;
  *  
  */
 public class DsfNettyClientChannelInitializer extends ChannelInitializer<SocketChannel> {
-	
+	private ServerConfig sc;
+	/** 
+	 * <p>Title: </p> 
+	 * <p>Description: </p> 
+	 * @author chenjiacheng
+	 * @Date 2016年6月18日 下午3:19:33
+	 * @param sc 
+	 */
+	public DsfNettyClientChannelInitializer(ServerConfig sc) {
+		this.sc = sc;
+	}
+
 	@Override
 	protected void initChannel(SocketChannel ch) throws Exception {
 		ch.pipeline().addLast(new ObjectEncoder()
 		,new ObjectDecoder(ClassResolvers.weakCachingConcurrentResolver(this.getClass().getClassLoader()))
 		,new DsfNettyClientHandler());
-		ClientChannelFactory.setChannel(ch);
+		ClientChannelCache.setChannel(ch,sc);
+		sc.setStatus(DsfConst.ServerStatus.RUN);
 	}
 }

@@ -20,5 +20,5 @@ import org.jccdemo.dsf.model.ResponseMsg;
  *  
  */
 public interface MethodInvoker {
-	public ResponseMsg invoke(RequestMsg request);
+	public ResponseMsg invoke(RequestMsg request) throws Exception;
 }

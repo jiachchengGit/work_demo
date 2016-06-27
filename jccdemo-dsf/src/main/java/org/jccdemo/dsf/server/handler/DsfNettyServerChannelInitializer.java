@@ -6,7 +6,7 @@
 * @date 2016年6月17日 下午2:06:00 
 * @version V1.0   
 */
-package org.jccdemo.dsf.netty.handler;
+package org.jccdemo.dsf.server.handler;
 
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.socket.SocketChannel;

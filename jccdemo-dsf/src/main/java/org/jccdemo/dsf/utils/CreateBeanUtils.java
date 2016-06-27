@@ -10,8 +10,6 @@ package org.jccdemo.dsf.utils;
 
 import java.net.InetAddress;
 
-import org.jccdemo.dsf.model.HeartBeat;
-
 /** 
  * @ClassName: CreateBeanUtils 
  * @Description: TODO(这里用一句话描述这个类的作用) 
@@ -20,13 +18,5 @@ import org.jccdemo.dsf.model.HeartBeat;
  *  
  */
 public class CreateBeanUtils {
-	public static HeartBeat createClientMsg(){
-		HeartBeat hb = new HeartBeat();
-		hb.setContent("this is client msg to server");
-		try {
-			hb.setIp(InetAddress.getLocalHost().getHostAddress());
-		} catch (Exception e) {
-		}
-		return hb;
-	}
+	
 }

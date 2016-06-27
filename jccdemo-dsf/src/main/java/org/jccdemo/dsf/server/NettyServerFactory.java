@@ -6,7 +6,11 @@
 * @date 2016年6月17日 下午2:05:01 
 * @version V1.0   
 */
-package org.jccdemo.dsf.netty;
+package org.jccdemo.dsf.server;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -16,7 +20,9 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 
 import org.jccdemo.dsf.common.DsfConst;
-import org.jccdemo.dsf.netty.handler.DsfNettyServerChannelInitializer;
+import org.jccdemo.dsf.config.ServerConfig;
+import org.jccdemo.dsf.hook.ServerRegisterHook;
+import org.jccdemo.dsf.server.handler.DsfNettyServerChannelInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,19 +33,35 @@ import org.slf4j.LoggerFactory;
  * @date 2016年6月17日 下午2:05:01 
  *  
  */
-public class DsfNettyServer {
+public class NettyServerFactory {
 	private Logger log = LoggerFactory.getLogger(getClass());
-	
-	private int port;
-	
-	public DsfNettyServer(){
-		this.port=DsfConst.PORT;
+	private static Map<String,ServerConfig> servers = new HashMap<String,ServerConfig>();
+	public static void registerServer(ServerRegisterHook hook){
+		List<ServerConfig> servers = hook.getRegisterServers();
+		if(servers != null){
+			for(ServerConfig sc:servers){
+				registerServer(sc);
+				
+			}
+		}
 	}
-	public DsfNettyServer(int port){
-		this.port=port;
-	}
 	
-	public void start(){
+	/** 
+	 * @Description: TODO(这里用一句话描述这个方法的作用) 
+	 * @Author chenjiacheng
+	 * @Date 2016年6月20日 下午2:16:30
+	 * @param sc        
+	 * @throws 
+	 */
+	public static void registerServer(ServerConfig sc) {
+		servers.put(sc.getClazzName(), sc);
+	}
+
+
+	
+	public void startServer(){
+		log.info("---start ServerTaskDistributeThread ---");
+		new ServerTaskDistributeThread().start();
 		log.info("----start netty server bootstrap----");
         EventLoopGroup bossGroup = new NioEventLoopGroup();
         EventLoopGroup workerGroup = new NioEventLoopGroup();
@@ -50,7 +72,7 @@ public class DsfNettyServer {
              .childHandler(new DsfNettyServerChannelInitializer())
              .option(ChannelOption.SO_BACKLOG, 128)          
              .childOption(ChannelOption.SO_KEEPALIVE, true); 
-            ChannelFuture f = bootstrap.bind(port).sync();
+            ChannelFuture f = bootstrap.bind(DsfConst.SERVER_PORT).sync();
             f.channel().closeFuture().sync();
         } catch (Exception e) {
 			log.error("start netty server error",e);

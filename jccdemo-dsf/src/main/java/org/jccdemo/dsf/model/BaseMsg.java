@@ -1,19 +1,36 @@
 package org.jccdemo.dsf.model;
 
 public abstract class BaseMsg {
-	public static enum MsgType{
-		Heart(1),
-		Business(2);
-		private int msgType;
-		
-		private MsgType(int msgType){
-			this.msgType=msgType;
-		}
-		
-		public int getMsgType() {
-			return msgType;
-		}
-		
+	
+	public static final int REQUEST_TYPE=1;
+	public static final int RESPONE_TYPE=2;
+	
+	private String msgId;
+	private int msgType;
+	
+	/**
+	 * @return the msgId
+	 */
+	public String getMsgId() {
+		return msgId;
 	}
-	public abstract int getMsgType();
+	/**
+	 * @param msgId the msgId to set
+	 */
+	public void setMsgId(String msgId) {
+		this.msgId = msgId;
+	}
+	/**
+	 * @return the msgType
+	 */
+	public int getMsgType() {
+		return msgType;
+	}
+	/**
+	 * @param msgType the msgType to set
+	 */
+	public void setMsgType(int msgType) {
+		this.msgType = msgType;
+	}
+	
 }

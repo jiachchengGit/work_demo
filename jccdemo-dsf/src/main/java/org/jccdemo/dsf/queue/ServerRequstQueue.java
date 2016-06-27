@@ -8,8 +8,6 @@
 */
 package org.jccdemo.dsf.queue;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -17,32 +15,21 @@ import org.jccdemo.dsf.model.RequestMsg;
 
 /** 
  * @ClassName: NIOQueue 
- * @Description: TODO(这里用一句话描述这个类的作用) 
+ * @Description: 服务端等待处理 
  * @author chenjiacheng
  * @date 2016年6月8日 上午9:25:07 
  *  
  */
-public class ClientRequstQueue {
+public class ServerRequstQueue {
 	
 	private static final BlockingQueue<RequestMsg> queue = new LinkedBlockingQueue<RequestMsg>(10240);
-	private ClientRequstQueue(){}
+	private ServerRequstQueue(){}
 	public static RequestMsg getEle() throws Exception{
-		RequestMsg poll = queue.poll();
+		RequestMsg poll = queue.take();
 		return poll;
 	}
 	
 	public static void putEle(RequestMsg ele){
 		queue.offer(ele);
-	}
-	
-	private static final Map<String,RequestMsg> waitRespone = new HashMap<String,RequestMsg>();
-	
-	public static void saveWaitRespone(RequestMsg request){
-		String msgId = request.getHearder().getMsgId();
-		waitRespone.put(msgId, request);
-	}
-	
-	public static RequestMsg getWaitRespone(String msgId){
-		return waitRespone.get(msgId);
 	}
 }

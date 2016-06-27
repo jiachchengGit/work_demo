@@ -12,6 +12,8 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 
 import org.jccdemo.dsf.base.MethodInvoker;
+import org.jccdemo.dsf.model.MethodInvocation;
+import org.jccdemo.dsf.model.RequestMsg;
 
 /** 
  * @ClassName: JDKInvocationHandler 
@@ -28,23 +30,15 @@ public class JDKInvocationHandler implements InvocationHandler {
 		this.invoker = invoker;
 	}
 
-	public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-		System.out.println("Class = "+method.getDeclaringClass().getName());
-		System.out.println("method="+method.getName());
-		Class<?>[] parameterTypes = method.getParameterTypes();
-		if(parameterTypes != null){
-			for(Class<?> c:parameterTypes){
-				if(c != null){
-					System.out.println("method paramtype="+c.getName());
-				}
-			}
-		}
-		if(args != null){
-			for(Object o:args){
-				System.out.println("param value="+o.toString());
-			}
-		}
-		return null;
+	public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {		
+		RequestMsg request = new RequestMsg();
+		MethodInvocation invocation = new MethodInvocation();
+		invocation.setClazzName(method.getDeclaringClass().getName());
+		invocation.setMethodName(method.getName());
+		invocation.setParamTypes(method.getParameterTypes());
+		invocation.setParamValues(args);
+		request.setInvocation(invocation);
+		return invoker.invoke(request);
 	}
 
 }

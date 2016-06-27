@@ -2,34 +2,31 @@ package org.jccdemo.dsf.model;
 
 import java.io.Serializable;
 
-import org.jccdemo.dsf.queue.ResponeCallBackQueue;
+import org.jccdemo.dsf.queue.ClientResponeCallBackQueue;
 
-public class RequestMsg implements Serializable{
+public class RequestMsg extends BaseMsg implements Serializable{
+
+	private MethodInvocation invocation;
 	
 	private static final long serialVersionUID = 1L;
 	
-	private MsgHeader hearder;
+	private ClientResponeCallBackQueue responeHanlder = new ClientResponeCallBackQueue();
 	
-	private MsgBody body;
+	/**
+	 * @return the invocation
+	 */
+	public MethodInvocation getInvocation() {
+		return invocation;
+	}
+	/**
+	 * @param invocation the invocation to set
+	 */
+	public void setInvocation(MethodInvocation invocation) {
+		this.invocation = invocation;
+	}
+
 	
-	private ResponeCallBackQueue responeHanlder;
-	
-	public ResponeCallBackQueue getResponeHanlder() {
+	public ClientResponeCallBackQueue getResponeHanlder() {
 		return responeHanlder;
-	}
-	public void setResponeHanlder(ResponeCallBackQueue responeHanlder) {
-		this.responeHanlder = responeHanlder;
-	}
-	public MsgHeader getHearder() {
-		return hearder;
-	}
-	public void setHearder(MsgHeader hearder) {
-		this.hearder = hearder;
-	}
-	public MsgBody getBody() {
-		return body;
-	}
-	public void setBody(MsgBody body) {
-		this.body = body;
 	}
 }
