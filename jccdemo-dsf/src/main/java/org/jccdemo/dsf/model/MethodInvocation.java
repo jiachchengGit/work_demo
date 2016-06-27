@@ -8,6 +8,8 @@
 */
 package org.jccdemo.dsf.model;
 
+import java.io.Serializable;
+
 /** 
  * @ClassName: MethodInvokation 
  * @Description: TODO(这里用一句话描述这个类的作用) 
@@ -15,7 +17,7 @@ package org.jccdemo.dsf.model;
  * @date 2016年6月12日 上午10:30:17 
  *  
  */
-public class MethodInvocation {
+public class MethodInvocation implements Serializable{
 	private String methodName;
 	private String clazzName;
 	private Class<?>[] paramTypes;

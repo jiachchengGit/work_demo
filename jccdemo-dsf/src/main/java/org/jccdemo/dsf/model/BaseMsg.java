@@ -1,5 +1,7 @@
 package org.jccdemo.dsf.model;
 
+import java.util.UUID;
+
 public abstract class BaseMsg {
 	
 	public static final int REQUEST_TYPE=1;
@@ -7,7 +9,9 @@ public abstract class BaseMsg {
 	
 	private String msgId;
 	private int msgType;
-	
+	public BaseMsg(){
+		msgId = UUID.randomUUID().toString();
+	}
 	/**
 	 * @return the msgId
 	 */

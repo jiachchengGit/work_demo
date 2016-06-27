@@ -8,8 +8,11 @@
 */
 package org.jccdemo.dsf.server;
 
+import org.jccdemo.dsf.model.MsgBody;
 import org.jccdemo.dsf.model.RequestMsg;
+import org.jccdemo.dsf.model.ResponseMsg;
 import org.jccdemo.dsf.queue.ServerRequstQueue;
+import org.jccdemo.dsf.test.bean.HeatResp;
 import org.jccdemo.dsf.utils.ThreadPoolUtils;
 
 /** 
@@ -41,8 +44,14 @@ class MethodTask implements Runnable{
 	}
 	
 	public void run() {
-		
-		
-		
+		String clazzName = msg.getInvocation().getClazzName();
+		System.out.println("--处理客户端信息--"+clazzName);
+		ResponseMsg resp = new ResponseMsg();
+		MsgBody body = new MsgBody();
+		HeatResp hr = new HeatResp();
+		hr.setAnswer("--This is server response to client msg---");
+		body.setMsg(hr);
+		resp.setBody(body);
+		ServerChannelCache.responseMsg(resp, clazzName, msg.getMsgId());
 	}
 }

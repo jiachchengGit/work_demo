@@ -19,9 +19,8 @@ import org.jccdemo.dsf.server.NettyServerFactory;
  */
 public class NettyServerMain {
 	
-	public static void main(String[] args){
-		
+	public static void main(String[] args){		
 		NettyServerFactory ds = new NettyServerFactory();
-		
+		ds.startServer();
 	}
 }

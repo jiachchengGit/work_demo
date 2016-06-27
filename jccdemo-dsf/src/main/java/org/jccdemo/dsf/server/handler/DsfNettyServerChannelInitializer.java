@@ -25,8 +25,10 @@ public class DsfNettyServerChannelInitializer extends ChannelInitializer<SocketC
 
 	@Override
 	protected void initChannel(SocketChannel ch) throws Exception {
+		System.out.println("-- init server Channel Handler -- ");
 		ch.pipeline().addLast(new ObjectEncoder()
-		,new ObjectDecoder(ClassResolvers.weakCachingConcurrentResolver(this.getClass().getClassLoader()))
+		,new ObjectDecoder(ClassResolvers.cacheDisabled(null))
 		,new DsfNettyServerHandler());
+//		ch.pipeline().addLast(new DsfNettyServerHandler());
 	}
 }

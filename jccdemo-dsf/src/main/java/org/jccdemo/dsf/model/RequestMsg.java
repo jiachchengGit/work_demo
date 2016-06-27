@@ -5,12 +5,21 @@ import java.io.Serializable;
 import org.jccdemo.dsf.queue.ClientResponeCallBackQueue;
 
 public class RequestMsg extends BaseMsg implements Serializable{
+	private static final long serialVersionUID = 1L;
 
 	private MethodInvocation invocation;
 	
-	private static final long serialVersionUID = 1L;
-	
 	private ClientResponeCallBackQueue responeHanlder = new ClientResponeCallBackQueue();
+	
+	private MsgBody body;
+
+	public MsgBody getBody() {
+		return body;
+	}
+
+	public void setBody(MsgBody body) {
+		this.body = body;
+	}
 	
 	/**
 	 * @return the invocation

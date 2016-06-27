@@ -29,6 +29,13 @@ public class DsfNettyClientHandler extends SimpleChannelInboundHandler<ResponseM
 	private Logger log = LoggerFactory.getLogger(getClass());
 	
 	@Override
+	public void channelRead(ChannelHandlerContext ctx, Object msg)	throws Exception {
+		// TODO Auto-generated method stub
+		log.info("--client read msg from server -- ");
+		super.channelRead(ctx, msg);
+	}
+
+	@Override
 	protected void channelRead0(ChannelHandlerContext ctx, ResponseMsg msg)throws Exception {
 		if(msg != null){
 			log.info("client retrieve msg from server:"+msg.getBody().getMsg().toString());

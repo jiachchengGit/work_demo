@@ -12,6 +12,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.jccdemo.dsf.config.ServerConfig;
+import org.jccdemo.dsf.model.BaseMsg;
+import org.jccdemo.dsf.model.ResponseMsg;
 
 import io.netty.channel.socket.SocketChannel;
 
@@ -41,4 +43,9 @@ public class ServerChannelCache {
 		channels.put(clazzName, channel);
 	}
 	
+	public static void responseMsg(ResponseMsg resp,String clazzName,String msgId){
+		resp.setMsgId(msgId);
+		SocketChannel ch = channels.get(clazzName);
+		ch.writeAndFlush(resp);		
+	}
 }

@@ -14,6 +14,7 @@ import java.lang.reflect.Method;
 import org.jccdemo.dsf.base.MethodInvoker;
 import org.jccdemo.dsf.model.MethodInvocation;
 import org.jccdemo.dsf.model.RequestMsg;
+import org.jccdemo.dsf.model.ResponseMsg;
 
 /** 
  * @ClassName: JDKInvocationHandler 
@@ -38,7 +39,11 @@ public class JDKInvocationHandler implements InvocationHandler {
 		invocation.setParamTypes(method.getParameterTypes());
 		invocation.setParamValues(args);
 		request.setInvocation(invocation);
-		return invoker.invoke(request);
+		ResponseMsg invoke = invoker.invoke(request);
+		if(invoke != null){
+			return invoke.getBody().getMsg();
+		}
+		return null;
 	}
 
 }
