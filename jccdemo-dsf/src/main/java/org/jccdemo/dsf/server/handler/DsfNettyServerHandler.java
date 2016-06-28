@@ -28,27 +28,15 @@ import io.netty.channel.socket.SocketChannel;
  */
 public class DsfNettyServerHandler extends SimpleChannelInboundHandler<RequestMsg> {
 	private Logger log = LoggerFactory.getLogger(getClass());
-	
-	@Override
-	public void channelActive(ChannelHandlerContext ctx) throws Exception {
-		System.out.println("-- server channel active -- ");
-		super.channelActive(ctx);
-	}
-
-
-	@Override
-	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-		System.out.println("-- server channel read -- ");
-		super.channelRead(ctx, msg);
-	}
 
 	@Override
 	protected void channelRead0(ChannelHandlerContext ctx, RequestMsg msg)throws Exception {
 		if(msg != null){
-			log.info("server retrieve msg:"+msg.toString());
+			log.info("Server:retrieve msgId="+msg.getMsgId());
+			MethodInvocation invocation = msg.getInvocation();
+			SocketChannel channel = (SocketChannel)ctx.channel();
+			ServerChannelCache.setChannel(channel, invocation.getClazzName());
+			ServerRequstQueue.putEle(msg);
 		}
-		MethodInvocation invocation = msg.getInvocation();
-		ServerChannelCache.setChannel((SocketChannel)ctx.channel(), invocation.getClazzName());
-		ServerRequstQueue.putEle(msg);
 	}
 }

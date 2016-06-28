@@ -1,15 +1,16 @@
 package org.jccdemo.dsf.model;
 
+import java.io.Serializable;
 import java.util.UUID;
 
-public abstract class BaseMsg {
-	
-	public static final int REQUEST_TYPE=1;
-	public static final int RESPONE_TYPE=2;
-	
+import org.jccdemo.dsf.common.DsfConst;
+
+public abstract class BaseMsg  implements Serializable{
+	private static final long serialVersionUID = 1L;
 	private String msgId;
 	private int msgType;
 	public BaseMsg(){
+		msgType=DsfConst.MsgType.HeartBeat;
 		msgId = UUID.randomUUID().toString();
 	}
 	/**

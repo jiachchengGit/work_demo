@@ -18,11 +18,13 @@ import java.io.Serializable;
  *  
  */
 public class MethodInvocation implements Serializable{
+	private static final long serialVersionUID = 1L;
 	private String methodName;
 	private String clazzName;
 	private Class<?>[] paramTypes;
 	private Object[] paramValues;
 	private String versionAlias;
+	
 	/**
 	 * @return the methodName
 	 */

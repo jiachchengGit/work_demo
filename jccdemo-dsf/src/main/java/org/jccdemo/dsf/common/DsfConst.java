@@ -11,4 +11,9 @@ public class DsfConst {
 		public int STOP=2;
 		public int DELETE=3;
 	}
+	
+	public interface MsgType{
+		public int HeartBeat=1;
+		public int MethodCall=2;
+	}
 }

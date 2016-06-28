@@ -11,9 +11,9 @@ package org.jccdemo.dsf.server;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.jccdemo.dsf.config.ServerConfig;
-import org.jccdemo.dsf.model.BaseMsg;
 import org.jccdemo.dsf.model.ResponseMsg;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import io.netty.channel.socket.SocketChannel;
 
@@ -25,7 +25,7 @@ import io.netty.channel.socket.SocketChannel;
  *  
  */
 public class ServerChannelCache {
-	
+	private static Logger log = LoggerFactory.getLogger(ServerChannelCache.class);
 	private static Map<String,SocketChannel> channels = new HashMap<String,SocketChannel>();
 
 	/**
@@ -44,8 +44,9 @@ public class ServerChannelCache {
 	}
 	
 	public static void responseMsg(ResponseMsg resp,String clazzName,String msgId){
+		log.info("[Server]-respone msgId="+msgId);
 		resp.setMsgId(msgId);
 		SocketChannel ch = channels.get(clazzName);
-		ch.writeAndFlush(resp);		
+		ch.writeAndFlush(resp);
 	}
 }

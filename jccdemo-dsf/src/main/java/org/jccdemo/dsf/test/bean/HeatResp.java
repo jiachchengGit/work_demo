@@ -8,6 +8,8 @@
 */
 package org.jccdemo.dsf.test.bean;
 
+import java.io.Serializable;
+
 /** 
  * @ClassName: HeatReq 
  * @Description: TODO(这里用一句话描述这个类的作用) 
@@ -15,7 +17,8 @@ package org.jccdemo.dsf.test.bean;
  * @date 2016年6月18日 下午4:14:09 
  *  
  */
-public class HeatResp {
+public class HeatResp implements Serializable{
+	private static final long serialVersionUID = 1L;
 	private String answer;
 	private int status;
 	/**

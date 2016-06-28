@@ -27,19 +27,11 @@ import io.netty.channel.SimpleChannelInboundHandler;
 public class DsfNettyClientHandler extends SimpleChannelInboundHandler<ResponseMsg> {
 	
 	private Logger log = LoggerFactory.getLogger(getClass());
-	
-	@Override
-	public void channelRead(ChannelHandlerContext ctx, Object msg)	throws Exception {
-		// TODO Auto-generated method stub
-		log.info("--client read msg from server -- ");
-		super.channelRead(ctx, msg);
-	}
 
 	@Override
 	protected void channelRead0(ChannelHandlerContext ctx, ResponseMsg msg)throws Exception {
 		if(msg != null){
-			log.info("client retrieve msg from server:"+msg.getBody().getMsg().toString());
-			//put response msg to queue
+			log.info("[Client]-retrieve msgId:"+msg.getMsgId());
 			RequestMsg waitRespone = ClientWaitResponseQueue.getWaitRespone(msg.getMsgId());
 			waitRespone.getResponeHanlder().put(msg);
 		}

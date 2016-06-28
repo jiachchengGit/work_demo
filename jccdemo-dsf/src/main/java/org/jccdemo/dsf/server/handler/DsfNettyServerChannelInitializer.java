@@ -8,6 +8,9 @@
 */
 package org.jccdemo.dsf.server.handler;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.codec.serialization.ClassResolvers;
@@ -22,13 +25,12 @@ import io.netty.handler.codec.serialization.ObjectEncoder;
  *  
  */
 public class DsfNettyServerChannelInitializer extends ChannelInitializer<SocketChannel> {
-
+	private Logger log  = LoggerFactory.getLogger(getClass());
 	@Override
 	protected void initChannel(SocketChannel ch) throws Exception {
-		System.out.println("-- init server Channel Handler -- ");
+		log.info("[Server]-init server Channel Handler -- ");
 		ch.pipeline().addLast(new ObjectEncoder()
 		,new ObjectDecoder(ClassResolvers.cacheDisabled(null))
 		,new DsfNettyServerHandler());
-//		ch.pipeline().addLast(new DsfNettyServerHandler());
 	}
 }

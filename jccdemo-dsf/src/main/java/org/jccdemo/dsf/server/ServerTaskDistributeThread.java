@@ -8,12 +8,13 @@
 */
 package org.jccdemo.dsf.server;
 
-import org.jccdemo.dsf.model.MsgBody;
 import org.jccdemo.dsf.model.RequestMsg;
 import org.jccdemo.dsf.model.ResponseMsg;
 import org.jccdemo.dsf.queue.ServerRequstQueue;
-import org.jccdemo.dsf.test.bean.HeatResp;
+import org.jccdemo.dsf.server.impl.ServerMsgHandlerFactory;
 import org.jccdemo.dsf.utils.ThreadPoolUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /** 
  * @ClassName: MethodCallTask 
@@ -23,14 +24,14 @@ import org.jccdemo.dsf.utils.ThreadPoolUtils;
  *  
  */
 public class ServerTaskDistributeThread extends Thread {
-	
+	private Logger log = LoggerFactory.getLogger(getClass());
 	public void run() {
 		while(true){
 			try{
 				RequestMsg ele = ServerRequstQueue.getEle();
 				ThreadPoolUtils.execute(new MethodTask(ele));
 			}catch(Exception e){
-				
+				log.error("[Server]-handler client reqeust error.",e);
 			}
 			
 		}
@@ -44,14 +45,8 @@ class MethodTask implements Runnable{
 	}
 	
 	public void run() {
+		ResponseMsg handler = ServerMsgHandlerFactory.handler(msg);
 		String clazzName = msg.getInvocation().getClazzName();
-		System.out.println("--处理客户端信息--"+clazzName);
-		ResponseMsg resp = new ResponseMsg();
-		MsgBody body = new MsgBody();
-		HeatResp hr = new HeatResp();
-		hr.setAnswer("--This is server response to client msg---");
-		body.setMsg(hr);
-		resp.setBody(body);
-		ServerChannelCache.responseMsg(resp, clazzName, msg.getMsgId());
+		ServerChannelCache.responseMsg(handler, clazzName, msg.getMsgId());
 	}
 }

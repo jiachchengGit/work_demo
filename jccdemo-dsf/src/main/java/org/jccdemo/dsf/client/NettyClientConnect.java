@@ -68,7 +68,7 @@ public class NettyClientConnect {
 		public void run() {
 			EventLoopGroup workerGroup = new NioEventLoopGroup();
 			try {
-				log.info("[client] init connect to server,"+sc.toString());
+				log.info("[client]-init connect to server,"+sc.toString());
 			    Bootstrap b = new Bootstrap(); 
 			    b.group(workerGroup);
 			    b.channel(NioSocketChannel.class); 
@@ -77,7 +77,7 @@ public class NettyClientConnect {
 			    ChannelFuture f = b.connect(sc.getIp(), sc.getPort()).sync();
 			    f.channel().closeFuture().sync();		            
 			} catch (InterruptedException e) {
-				log.error("[client] init connect to server error",e);
+				log.error("[client]-init connect to server error",e);
 			} finally {
 			    workerGroup.shutdownGracefully();
 			}
