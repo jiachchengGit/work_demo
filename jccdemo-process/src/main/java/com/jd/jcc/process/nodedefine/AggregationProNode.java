@@ -26,6 +26,9 @@ public class AggregationProNode extends BaseProNode {
 	
 	private List<BaseProNode> parentNodes;
 	
+	//所有并行分支执行的结果
+	private List<Object> results;
+	
 	public AggregationProNode() {
 		super(ProNodeTypeEnum.aggregation.name());
 		parentNodes = new ArrayList<BaseProNode>();

@@ -12,6 +12,7 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 
 import org.jccdemo.dsf.base.MethodInvoker;
+import org.jccdemo.dsf.common.DsfConst;
 import org.jccdemo.dsf.model.MethodInvocation;
 import org.jccdemo.dsf.model.RequestMsg;
 import org.jccdemo.dsf.model.ResponseMsg;
@@ -33,6 +34,7 @@ public class JDKInvocationHandler implements InvocationHandler {
 
 	public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {		
 		RequestMsg request = new RequestMsg();
+		request.setMsgType(DsfConst.MsgType.MethodCall);
 		MethodInvocation invocation = new MethodInvocation();
 		invocation.setClazzName(method.getDeclaringClass().getName());
 		invocation.setMethodName(method.getName());

@@ -183,15 +183,21 @@
 			<artifactId>cxf-rt-transports-http</artifactId>
 			<version>2.7.14</version>
 		</dependency>
-<!-- 		<dependency> -->
-<!-- 			<groupId>ik-expression</groupId> -->
-<!-- 			<artifactId>ik-expression</artifactId> -->
-<!-- 			<version>2.1.2</version> -->
-<!-- 		</dependency> -->
+		<dependency>
+			<groupId>ik-expression</groupId>
+			<artifactId>ik-expression</artifactId>
+			<version>2.1.2</version>
+		</dependency>
 		<dependency>
 			<groupId>org.apache.ibatis</groupId>
 			<artifactId>ibatis-core</artifactId>
 			<version>3.0</version>
+		</dependency>
+		<!-- 		Java表达式引擎 -->
+		<dependency>
+			<groupId>com.googlecode.aviator</groupId>
+			<artifactId>aviator</artifactId>
+			<version>2.3.4</version>
 		</dependency>
 	</dependencies>
 </project>
