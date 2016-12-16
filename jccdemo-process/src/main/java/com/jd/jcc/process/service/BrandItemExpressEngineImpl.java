@@ -10,7 +10,7 @@ package com.jd.jcc.process.service;
 
 import java.util.Map;
 
-import com.jcc.demo.expression.IkExpressionUtils;
+//import com.jcc.demo.expression.IkExpressionUtils;
 import com.jcc.demo.expression.VariableType;
 import com.jd.jcc.process.common.BrandExpressUtils;
 import com.jd.jcc.process.model.ExpressionAssemblyResult;
@@ -30,7 +30,7 @@ public class BrandItemExpressEngineImpl implements BrandItemExpressEngine {
 	public boolean excuteExpress(BranchExpression branchExpression,Object requestParam) {
 		ExpressionAssemblyResult express = BrandExpressUtils.assemblyBranchExpress(branchExpression);
 		Map<String, VariableType> parseVariableValue = brandItemValueParse.parseVariableValue(express.getValues(),requestParam);
-		boolean flag =IkExpressionUtils.logicExpression(express.getExpression(), parseVariableValue);
+		boolean flag = false;//IkExpressionUtils.logicExpression(express.getExpression(), parseVariableValue);
 		return flag;
 	}
 }
