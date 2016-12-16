@@ -16,7 +16,7 @@
   <dependencies>
   	<dependency>
   	  <groupId>com.jcc.demo</groupId>
-      <artifactId>jccdemo-lang</artifactId>
+      <artifactId>jccdemo-common</artifactId>
       <version>${project.parent.version}</version>
   	</dependency>
   	<dependency>
