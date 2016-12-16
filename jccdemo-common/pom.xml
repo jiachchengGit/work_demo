@@ -8,10 +8,10 @@
 	</parent>
 	<artifactId>jccdemo-common</artifactId>
 	<dependencies>
-		<dependency>
-			<groupId>com.squareup.retrofit2</groupId>
-			<artifactId>retrofit</artifactId>
-			<version>2.1.1-SNAPSHOT</version>
-		</dependency>
+		<!--<dependency>-->
+			<!--<groupId>com.squareup.retrofit2</groupId>-->
+			<!--<artifactId>retrofit</artifactId>-->
+			<!--<version>2.1.1-SNAPSHOT</version>-->
+		<!--</dependency>-->
 	</dependencies>
 </project>
