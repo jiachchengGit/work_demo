@@ -11,7 +11,7 @@ package com.jd.jcc.process.service;
 import java.util.Map;
 
 //import com.jcc.demo.expression.IkExpressionUtils;
-import com.jcc.demo.expression.VariableType;
+import com.jccdemo.expression.VariableType;
 import com.jd.jcc.process.common.BrandExpressUtils;
 import com.jd.jcc.process.model.ExpressionAssemblyResult;
 import com.jd.jcc.process.nodedefine.BranchExpression;

@@ -18,6 +18,7 @@
 		<module>jccdemo-dsf</module>
 	</modules>
 	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<shiro-version>1.2.4</shiro-version>
 	</properties>
 	<dependencyManagement>

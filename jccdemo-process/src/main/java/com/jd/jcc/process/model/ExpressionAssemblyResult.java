@@ -10,7 +10,7 @@ package com.jd.jcc.process.model;
 
 import java.util.Map;
 
-import com.jcc.demo.expression.VariableType;
+import com.jccdemo.expression.VariableType;
 
 /** 
  * @ClassName: ExpressionAssemblyResult 

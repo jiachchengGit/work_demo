@@ -1,7 +1,7 @@
 import java.io.IOException;
 import java.io.Serializable;
 
-import com.jcc.demo.common.ObjectCopyTools;
+import com.jccdemo.common.ObjectCopyTools;
 
 /**   
  * @Title: TestCopy.java 

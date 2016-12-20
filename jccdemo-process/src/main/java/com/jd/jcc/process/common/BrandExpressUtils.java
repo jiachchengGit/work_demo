@@ -17,7 +17,7 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.jcc.demo.expression.VariableType;
+import com.jccdemo.expression.VariableType;
 import com.jd.jcc.process.model.ExpressionAssemblyResult;
 import com.jd.jcc.process.nodedefine.BranchExpression;
 import com.jd.jcc.process.nodedefine.BranchExpressionItem;
@@ -54,7 +54,6 @@ public class BrandExpressUtils {
 	 * @Description: TODO(这里用一句话描述这个方法的作用) 
 	 * @Author chenjiacheng
 	 * @Date 2016年3月4日 下午1:48:58
-	 * @param expression
 	 * @param codeValues
 	 * @return        
 	 * @throws 
@@ -74,8 +73,7 @@ public class BrandExpressUtils {
 	 * @Description: TODO(这里用一句话描述这个方法的作用) 
 	 * @Author chenjiacheng
 	 * @Date 2016年3月4日 下午1:52:45
-	 * @param ei
-	 * @return        
+	 * @return
 	 * @throws 
 	 */
 	private static String parseExpressionItem(BranchExpressionItem item,Map<String, VariableType> codeValues) {
