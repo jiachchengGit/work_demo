@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
-       xmlns:util="http://www.springframework.org/schema/util" xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:context="http://www.springframework.org/schema/context"
        xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
@@ -21,11 +22,11 @@
         <property name="maxIdle" value="${jdbc.pool.maxIdle}"/>
         <property name="maxWait" value="${jdbc.pool.maxWait}"/>
         <property name="initialSize" value="${jdbc.pool.initialSize}"/>
-        <property name="validationQuery" value="${jdbc.validationQuery}" />
-        <property name="removeAbandoned" value="true" />
+        <property name="validationQuery" value="${jdbc.validationQuery}"/>
+        <property name="removeAbandoned" value="true"/>
         <property name="removeAbandonedTimeout" value="100"/>
-        <property name="testOnBorrow" value="${jdbc.testOnBorrow}" />
-        <property name="testWhileIdle" value="true" />
+        <property name="testOnBorrow" value="${jdbc.testOnBorrow}"/>
+        <property name="testWhileIdle" value="true"/>
         <property name="timeBetweenEvictionRunsMillis" value="60000"/>
         <property name="numTestsPerEvictionRun" value="20"/>
     </bean>
