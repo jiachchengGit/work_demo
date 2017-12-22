@@ -120,5 +120,6 @@ public class JavaMailUtils {
         mm.addPic("20170704152434.jpg","F:/私人文件/20170704152434.jpg");
         mm.addAtta("公积金接收函范本.doc","F:/公积金接收函范本.doc");
         sendEmail(mm);
+//        MailSendUtils.getInstance().sendEmail(mm);
     }
 }

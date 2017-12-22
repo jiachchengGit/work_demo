@@ -4,12 +4,14 @@ import org.apache.commons.lang.CharEncoding;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 
 import javax.mail.*;
+import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.*;
 
@@ -41,7 +43,10 @@ public class MailSendUtils {
         properties.put("mail.smtp.auth", true);
         properties.put("mail.smtp.timeout", 25000);
         properties.put("mail.smtp.host", SM_EAMIL_HOST);
-        properties.put("mail.transport.protocol","imap");
+//        properties.put("mail.transport.protocol","imap");
+//        properties.put("mail.transport.protocol", "smtp");
+        properties.put("mail.store.protocol", "imap");
+        properties.put("mail.debug",true);
         javaMailSender.setJavaMailProperties(properties);
     }
 
@@ -140,8 +145,13 @@ public class MailSendUtils {
                     if (StringUtils.isEmpty(filePath)) {
                         throw new RuntimeException("图片" + filePath + "不能为空！");
                     }
-                    UrlResource img = new UrlResource(filePath);
-                    messageHelper.addInline(cid, img);
+                    if(filePath.startsWith("http")){
+                        UrlResource img = new UrlResource(filePath);
+                        messageHelper.addInline(cid, img);
+                    }else {
+                        FileSystemResource fsr  = new FileSystemResource(filePath);
+                        messageHelper.addInline(cid,fsr);
+                    }
                 }
             }
 
@@ -157,8 +167,15 @@ public class MailSendUtils {
                     if (StringUtils.isEmpty(filePath)) {
                         throw new RuntimeException("附件" + filePath + "不能为空！");
                     }
-                    UrlResource fileResource = new UrlResource(filePath);
-                    messageHelper.addAttachment(cid, fileResource);
+//                    UrlResource fileResource = new UrlResource(filePath);
+//                    messageHelper.addAttachment(cid, fileResource);
+                    if(filePath.startsWith("http")){
+                        UrlResource img = new UrlResource(filePath);
+                        messageHelper.addAttachment(cid, img);
+                    }else {
+                        FileSystemResource fsr  = new FileSystemResource(filePath);
+                        messageHelper.addAttachment(cid,fsr);
+                    }
                 }
             }
             messageHelper.setSentDate(new Date());
@@ -189,5 +206,20 @@ public class MailSendUtils {
         folder.expunge();
         folder.close(true);
         store.close();
+    }
+
+    public static void main(String[] args) throws Exception {
+        MailModel mm = new MailModel();
+        String userName = "finance@sm.vvip-u.com";
+        mm.setEmailUserName(userName);
+        mm.setEmailPassword("finance");
+        mm.setSubject("Chen jiacheng Test");
+        mm.setContent("邮件正文测试");
+        mm.setEmailFrom(userName);
+        mm.setToEmails("chenjiacheng@sm.vvip-u.com");
+//        mm.addPic("20170704152434.jpg","F:/私人文件/20170704152434.jpg");
+//        mm.addAtta("公积金接收函范本.doc","F:/公积金接收函范本.doc");
+//        sendEmail(mm);
+        MailSendUtils.getInstance().sendEmail(mm);
     }
 }
